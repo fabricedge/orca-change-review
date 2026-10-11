@@ -1,0 +1,25 @@
+{
+  "name": "orca-changes-stuff",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import:orca": "node scripts/import-orca-media.mjs",
+    "predev": "npm run import:orca",
+    "dev": "next dev --hostname 0.0.0.0 --port 3100",
+    "prebuild": "npm run import:orca",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0 --port 3100",
+    "record:orca": "node scripts/record-orca-variants.mjs",
+    "publish:github": "bash scripts/publish-github.sh",
+    "check:changes": "node scripts/check-revisions.mjs"
+  },
+  "dependencies": {
+    "next": "^16.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
