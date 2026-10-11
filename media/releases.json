@@ -1,0 +1,25 @@
+{
+  "captureKind": "orca-app",
+  "repository": "fabricedge/orca-change-review",
+  "tag": "recordings-20261011-225001",
+  "recordedAt": "2026-10-11T15:41:22.504Z",
+  "variants": {
+    "cli-only": {
+      "video": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/cli-only.webm",
+      "menu": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/cli-only-menu.png",
+      "copied": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/cli-only-copied.png"
+    },
+    "split-control": {
+      "video": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/split-control.webm",
+      "menu": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/split-control-menu.png",
+      "tooltip": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/split-control-tooltip.png",
+      "copied": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/split-control-copied.png"
+    },
+    "two-columns": {
+      "video": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/two-columns.webm",
+      "menu": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/two-columns-menu.png",
+      "tooltip": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/two-columns-tooltip.png",
+      "copied": "https://github.com/fabricedge/orca-change-review/releases/download/recordings-20261011-225001/two-columns-copied.png"
+    }
+  }
+}
