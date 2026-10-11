@@ -1,14 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { findRevision, formatRecordedDate } from '../../../lib/revisions.mjs'
+import { revisions, findRevision, formatRecordedDate } from '../../../lib/revisions.mjs'
 import { readImportedMedia } from '../../../lib/read-imported-media.mjs'
 import { variants } from '../../../lib/tab-copy-variants.mjs'
 import { TabComparison } from '../../tab-comparison'
 import { VariantCompare } from '../../variant-compare'
 import { RevisionDecision } from '../../revision-decision'
 
-export const dynamic = 'force-dynamic'
+export function generateStaticParams() {
+  return revisions.map((revision) => ({ slug: revision.slug }))
+}
+export const dynamicParams = false
 
 export async function generateMetadata({ params }) {
   const revision = findRevision((await params).slug)

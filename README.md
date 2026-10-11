@@ -1,5 +1,7 @@
 # Orca changes stuff
 
+Para publicar o site estático no GitHub Pages: [guia de deploy](docs/github-pages.md). O comando único no checkout Orca é `bash artifacts/deploy-orca-pages.sh`.
+
 ## GitHub Releases e próximas mudanças
 
 Use `bash scripts/publish-github.sh` para criar o repositório público `orca-change-review`, publicar o código e enviar vídeos para um Release. O manifesto versionado aponta para os assets externos; vídeos não entram no Git. [Guia de publicação](docs/github-releases.md).

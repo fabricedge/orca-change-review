@@ -4,8 +4,7 @@ import { readImportedMedia } from '../../../lib/read-imported-media.mjs'
 import { getMessages } from '../../../lib/i18n.mjs'
 import { VideoPlayer } from '../../video-player'
 import { LanguageSwitch } from '../../language-switch'
-
-export const dynamic = 'force-dynamic'
+import Link from 'next/link'
 
 export default async function Page({ params }) {
   const { locale } = await params
@@ -27,7 +26,7 @@ export default async function Page({ params }) {
       <header className="site-header">
         <span>{t.brand}</span>
         <div className="header-actions">
-          <a href="/revisoes">{t.reviews}</a>
+          <Link href="/revisoes">{t.reviews}</Link>
           <a href="#versions">{t.tabCopy}</a>
           <LanguageSwitch />
         </div>
