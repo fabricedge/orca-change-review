@@ -3,7 +3,10 @@
 import React, { useEffect, useState } from 'react'
 
 export function RevisionDecision({ revision }) {
-  const fingerprint = revision.commits.map((commit) => commit.id).join(',') || revision.pullRequest
+  const fingerprint =
+    revision.commits.map((commit) => commit.id).join(',') ||
+    revision.pullRequest ||
+    `${revision.issue ?? revision.slug}:${revision.updatedAt}`
   const storageKey = `orca-decision:${revision.slug}:${fingerprint}`
   const [decision, setDecision] = useState('pendente')
   const [reason, setReason] = useState('')
@@ -29,6 +32,8 @@ export function RevisionDecision({ revision }) {
     return {
       revision: revision.slug,
       commits: revision.commits,
+      issue: revision.issue,
+      updatedAt: revision.updatedAt,
       decision,
       reason,
       recordedAt: new Date().toISOString()
@@ -38,7 +43,7 @@ export function RevisionDecision({ revision }) {
     event.preventDefault()
     try {
       localStorage.setItem(storageKey, JSON.stringify(record()))
-      setMessage('Decisão salva neste navegador para estes commits.')
+      setMessage('Decisão salva neste navegador para esta versão.')
     } catch {
       setMessage('Não foi possível salvar. Exporte o registro para guardar sua decisão.')
     }
@@ -57,7 +62,7 @@ export function RevisionDecision({ revision }) {
     <section className="decision-record" aria-labelledby="decision-title">
       <h2 id="decision-title">Sua decisão</h2>
       <p className="note">
-        Salva neste navegador, vinculada aos commits abaixo. Uma versão nova começa sem decisão.
+        Salva neste navegador, vinculada à referência abaixo. Uma versão nova começa sem decisão.
         Exporte para guardar uma cópia ou levar a outro dispositivo.
       </p>
       <p className="decision-commits">

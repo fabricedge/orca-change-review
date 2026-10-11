@@ -10,6 +10,7 @@ for (const route of [
   'index.html',
   'revisoes/index.html',
   ...locales.map((locale) => `${locale}/tab-copy/index.html`),
+  ...locales.map((locale) => `${locale}/workflow/index.html`),
   ...revisions.map((revision) => `revisoes/${revision.slug}/index.html`)
 ]) {
   const html = await readFile(join(root, route), 'utf8')

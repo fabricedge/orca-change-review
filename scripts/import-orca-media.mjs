@@ -1,6 +1,7 @@
 import { cp, mkdir, access, writeFile, readFile } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { variants } from '../lib/tab-copy-variants.mjs'
+import { existsSync } from 'node:fs'
 
 const project = resolve(import.meta.dirname, '..')
 try {
@@ -20,13 +21,16 @@ try {
   }
 }
 const source = resolve(process.env.ORCA_SOURCE ?? resolve(project, '../orca'))
+const artifactRoot = existsSync(join(project, 'orca-artifacts/tab-copy-prs'))
+  ? join(project, 'orca-artifacts/tab-copy-prs')
+  : join(source, 'artifacts/tab-copy-prs')
 const destination = join(project, 'public/media')
 await mkdir(destination, { recursive: true })
 const available = {}
 let captureKind = 'isolated-components'
 try {
   const capture = JSON.parse(
-    await readFile(join(source, 'artifacts/tab-copy-prs/images/videos/capture.json'), 'utf8')
+    await readFile(join(artifactRoot, 'images/videos/capture.json'), 'utf8')
   )
   captureKind = capture.kind
 } catch (error) {
@@ -62,7 +66,7 @@ for (const variant of variants) {
     const filename = `${variant.id}${suffix}`
     if (
       await copyIfPresent(
-        join(source, 'artifacts/tab-copy-prs/images/videos', filename),
+        join(artifactRoot, 'images/videos', filename),
         join(destination, filename)
       )
     ) {
@@ -73,7 +77,7 @@ for (const variant of variants) {
 }
 
 for (const filename of ['variants.bundle', 'videos.zip']) {
-  await copyIfPresent(join(source, 'artifacts/tab-copy-prs', filename), join(destination, filename))
+  await copyIfPresent(join(artifactRoot, filename), join(destination, filename))
 }
 const fontDirectory = join(project, 'public/fonts')
 await mkdir(fontDirectory, { recursive: true })

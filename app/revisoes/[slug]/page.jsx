@@ -7,6 +7,10 @@ import { variants } from '../../../lib/tab-copy-variants.mjs'
 import { TabComparison } from '../../tab-comparison'
 import { VariantCompare } from '../../variant-compare'
 import { RevisionDecision } from '../../revision-decision'
+import { RevisionSections } from '../../revision-sections'
+import { PageDates } from '../../page-dates'
+import { IssueProblem } from '../../issue-problem'
+import { TestEvidence } from '../../test-evidence'
 
 export function generateStaticParams() {
   return revisions.map((revision) => ({ slug: revision.slug }))
@@ -30,7 +34,7 @@ export default async function RevisionPage({ params }) {
     ? variants.filter((item) => revision.variantIds.includes(item.id))
     : variants
   const navigation = revision.comparison
-    ? items.map((variant) => ({ id: variant.id, title: variant.title }))
+    ? [...revision.sections, ...items.map((variant) => ({ id: variant.id, title: variant.title }))]
     : revision.sections
 
   return (
@@ -43,7 +47,23 @@ export default async function RevisionPage({ params }) {
           {revision.kind} · {revision.status}
         </p>
         <h1>{revision.title}</h1>
+        <PageDates dates={revision} locale="pt-BR" />
         <p>{revision.summary}</p>
+        {revision.issue && (
+          <a className="reading-link" href={revision.issue}>
+            Abrir issue no repositório
+          </a>
+        )}
+        {revision.repository && (
+          <a
+            className="reading-link"
+            href={`https://github.com/${revision.repository}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Repositório: {revision.repository}
+          </a>
+        )}
         <p className="implementation-note">{revision.implementation}</p>
         {revision.recordedAt && (
           <p className="note">
@@ -84,52 +104,17 @@ export default async function RevisionPage({ params }) {
           </a>
         ))}
       </nav>
+      {revision.issueDraft && <IssueProblem draft={revision.issueDraft} />}
+      {revision.testEvidence && <TestEvidence evidence={revision.testEvidence} />}
       {revision.comparison ? (
         <>
+          <RevisionSections revision={revision} />
           {items.length > 1 && <VariantCompare media={media} />}
           <TabComparison media={media} items={items} />
         </>
       ) : (
         <div className="reading-layout">
-          <div className="reading-content">
-            {revision.sections.map((section) => (
-              <section id={section.id} className="reading-section" key={section.id}>
-                <h2>{section.title}</h2>
-                {section.paragraphs?.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-                {section.files && (
-                  <ul className="file-list">
-                    {section.files.map((file) => (
-                      <li key={file.path}>
-                        <a
-                          href={`https://github.com/${revision.repository}/blob/${revision.commits[0]?.id ?? revision.base ?? 'HEAD'}/${file.path}`}
-                        >
-                          <code>{file.path}</code>
-                        </a>
-                        <p>{file.description}</p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {section.code && (
-                  <figure className="command-block">
-                    {section.codeCaption && <figcaption>{section.codeCaption}</figcaption>}
-                    <pre>
-                      <code>{section.code}</code>
-                    </pre>
-                  </figure>
-                )}
-                {section.items && (
-                  <ul className="reading-list">
-                    {section.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
-          </div>
+          <RevisionSections revision={revision} />
           <aside className="branch-record" aria-label="Identificação da branch">
             <h2>Branch e commit</h2>
             <dl>

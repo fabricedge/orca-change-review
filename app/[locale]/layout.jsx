@@ -2,6 +2,8 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import { locales, getMessages } from '../../lib/i18n.mjs'
 import { I18nProvider } from '../i18n-provider'
+import { SourceLinks } from '../source-links'
+import { ReviewDisclaimer } from '../review-disclaimer'
 import '../globals.css'
 import { sitePath } from '../../lib/site-path.mjs'
 export function generateStaticParams() {
@@ -27,7 +29,11 @@ export default async function Layout({ children, params }) {
   return (
     <html lang={locale}>
       <body>
-        <I18nProvider locale={locale}>{children}</I18nProvider>
+        <I18nProvider locale={locale}>
+          {children}
+          <ReviewDisclaimer />
+          <SourceLinks />
+        </I18nProvider>
       </body>
     </html>
   )

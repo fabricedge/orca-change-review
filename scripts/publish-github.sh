@@ -10,6 +10,9 @@ owner="$(gh api user --jq .login)"
 repository="${1:-$owner/orca-change-review}"
 tag="${2:-recordings-$(date -u +%Y%m%d-%H%M%S)}"
 source_dir="${3:-$site_dir/../orca/artifacts/tab-copy-prs/images/videos}"
+if [[ $# -lt 3 && -d "$site_dir/orca-artifacts/tab-copy-prs/images/videos" ]]; then
+  source_dir="$site_dir/orca-artifacts/tab-copy-prs/images/videos"
+fi
 release_dir="$(mktemp -d "${TMPDIR:-/tmp}/orca-release-media.XXXXXX")"
 trap 'rm -rf -- "$release_dir"' EXIT
 

@@ -5,3 +5,6 @@ public/fonts/
 npm-debug.log*
 .env*.local
 .check/
+data/.review-write.lock/
+data/.reviews-*.json
+recordings/

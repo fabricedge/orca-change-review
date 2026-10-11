@@ -49,7 +49,9 @@ export function RevisionCatalog({ revisions }) {
         revision.status,
         ...revision.branches,
         ...revision.commits.map((commit) => commit.id),
-        revision.pullRequest ?? ''
+        revision.pullRequest ?? '',
+        revision.issue ?? '',
+        revision.issueDraft?.problem ?? ''
       ].join(' ')
     )
     return (!kind || revision.kind === kind) && haystack.includes(needle)
@@ -109,7 +111,15 @@ export function RevisionCatalog({ revisions }) {
               <div className="review-summary">
                 <p className="review-kind">
                   {revision.kind}
-                  {revision.repository && ` · ${revision.repository}`}
+                  {revision.repository && (
+                    <>
+                      {' '}
+                      ·{' '}
+                      <a href={`https://github.com/${revision.repository}`}>
+                        {revision.repository}
+                      </a>
+                    </>
+                  )}
                 </p>
                 <h2>
                   <Link href={revisionHref(revision)}>{revision.title}</Link>
@@ -125,6 +135,10 @@ export function RevisionCatalog({ revisions }) {
                 <p>{revision.status}</p>
                 {revision.pullRequest ? (
                   <a href={revision.pullRequest}>Abrir PR</a>
+                ) : revision.issue ? (
+                  <a href={revision.issue}>Abrir issue</a>
+                ) : revision.issueDraft ? (
+                  <p className="note">Rascunho de issue · ainda não publicado</p>
                 ) : (
                   <p className="note">
                     Commit <code>{revision.commits[0].id}</code>

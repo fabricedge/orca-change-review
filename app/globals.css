@@ -87,6 +87,68 @@ code {
 .site-header span {
   font-weight: 600;
 }
+.review-identity {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.review-identity .note {
+  flex-basis: 100%;
+  font-weight: 400;
+}
+.create-review {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+}
+.page-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 0 0 20px;
+  color: var(--muted-foreground);
+}
+.page-dates dt,
+.page-dates dd {
+  margin: 0;
+}
+.workflow-steps {
+  padding-left: 24px;
+  max-width: 720px;
+}
+.review-disclaimer {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 20px 24px;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.review-disclaimer p {
+  margin: 8px 0 0;
+}
+.workflow-steps li {
+  display: list-item;
+  font: inherit;
+  margin-bottom: 20px;
+}
+.source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+  border-top: 1px solid var(--border);
+}
+.source-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+}
 .site-header a,
 .downloads a,
 footer a {

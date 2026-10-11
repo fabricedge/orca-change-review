@@ -5,6 +5,9 @@ import { getMessages } from '../../../lib/i18n.mjs'
 import { VideoPlayer } from '../../video-player'
 import { LanguageSwitch } from '../../language-switch'
 import Link from 'next/link'
+import { ReviewIdentity, CreateReviewLink } from '../../review-identity'
+import { PageDates } from '../../page-dates'
+import { siteRepositoryUrl } from '../../../lib/review-site.mjs'
 
 export default async function Page({ params }) {
   const { locale } = await params
@@ -24,17 +27,23 @@ export default async function Page({ params }) {
         {t.skip}
       </a>
       <header className="site-header">
-        <span>{t.brand}</span>
+        <ReviewIdentity locale={locale} />
         <div className="header-actions">
           <Link href="/revisoes">{t.reviews}</Link>
+          <Link href={`/${locale}/workflow`}>{t.testWorkflow}</Link>
+          <a href={siteRepositoryUrl} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
           <a href="#versions">{t.tabCopy}</a>
           <LanguageSwitch />
+          <CreateReviewLink locale={locale} />
         </div>
       </header>
       <main>
         <div className="intro">
           <p className="eyebrow">{t.eyebrow}</p>
           <h1>{t.heading}</h1>
+          <PageDates locale={locale} />
           <p>{t.intro}</p>
           <p className="note">
             {media.captureKind === 'orca-app' ? t.fullCapture : t.isolatedCapture}

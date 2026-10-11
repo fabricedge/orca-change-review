@@ -1,4 +1,28 @@
-# Orca changes stuff
+# Orca Review Changes
+
+## Automated test evidence and MCP
+
+Orca Review Changes creates pages where developers share automated videos of Orca tests and features, alongside descriptions, results and limitations. **These pages do not replace proper review of the PR on GitHub, its code, tests or CI results.** A video alone does not prove that a test passed.
+
+The website's **Tests & MCP** page explains the workflow in English and Portuguese. The [recording guide](docs/test-recording.md) and [MCP guide](docs/mcp.md) show how to connect an agent, run an existing Orca Electron E2E spec with video capture, inspect the report and save an evidence page linked to a PR or commit. MCP runs on the developer's host; Pages hosts the resulting static pages and Releases stores reviewed videos.
+
+Issue preparation supports reports of problems found in tests. A local draft does not require a PR or commit. Identify the actual user problem, follow the target repository's current issue guidelines, and keep unrelated work out of an oversized PR.
+
+## Create your own Orca Review
+
+Publish your own Orca changes, PR descriptions and recordings using this site:
+
+1. Fork this repository into your GitHub account and clone your fork. Keep it public for the free GitHub Pages workflow.
+2. Install Node.js 24 or later, then run `npm ci`.
+3. Replace the examples in `lib/revisions.mjs` with your reviews, or use MCP to add records to `data/reviews.json`. Each entry needs an issue, problem-first issue draft, PR URL or commit, its description, and `createdAt` / `updatedAt` timestamps in ISO 8601 format with a timezone. Run `npm run check:changes`.
+4. Set `NEXT_PUBLIC_SITE_REPOSITORY=your-username/your-repository` in `.env.local` for local previews. The topbar derives your GitHub username and repository links from this value. The Pages workflow sets it automatically from your fork's repository.
+5. Set the page timestamps in `lib/review-site.mjs`. Preserve `createdAt` when editing; change `updatedAt` only when the page content changes. Dates describe review pages, not the age of a PR, recording or deployment. For existing pages, creation uses their first site publication; new individual reviews start when introduced. Timestamps display in UTC and do not change merely because someone reloads or rebuilds the site.
+6. Remove the example `media/releases.json` before importing your own recordings. Configure `ORCA_SOURCE` in `.env.local` if you record from an Orca checkout. Publish your videos to your own GitHub Releases using the [release guide](docs/github-releases.md); keep video files out of Git.
+7. In **Settings → Pages → Build and deployment**, select **GitHub Actions**. Push to `main` or manually run the **Pages** workflow. See the [Pages guide](docs/github-pages.md) for the workflow and troubleshooting.
+
+Preview with `npm run dev`. Check the static export with `ORCA_GITHUB_PAGES=1 NEXT_PUBLIC_BASE_PATH=/your-repository npm run build -- --webpack` on Linux/macOS; on Windows, set these environment variables in your shell before running the build. A GitHub Pages site is public: publish only review content and media you intend to share.
+
+The **Create your own Orca Review** link in the topbar points to this section in the configured repository. All topbar identity and invitation text is available in English and Portuguese.
 
 Para publicar o site estático no GitHub Pages: [guia de deploy](docs/github-pages.md). O comando único no checkout Orca é `bash artifacts/deploy-orca-pages.sh`.
 
