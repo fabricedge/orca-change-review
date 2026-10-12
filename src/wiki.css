@@ -6,6 +6,9 @@
   font-display: swap;
 }
 :root {
+  --asttsp-text: #854600;
+  --asttsp-background: #fff4df;
+  --asttsp-border: #b77b28;
   --background: #fff;
   --surface: #f7f8fa;
   --text: #17191c;
@@ -490,6 +493,36 @@ article {
   flex-wrap: wrap;
   font-size: 11px;
   line-height: 1.5;
+}
+.asttsp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.asttsp-tag {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--asttsp-border);
+  border-radius: 4px;
+  background: var(--asttsp-background);
+  color: var(--asttsp-text);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.asttsp-catalog-link {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 10px 0;
+}
+.asttsp-page .recording video {
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
 }
 .article-header {
   padding-bottom: 24px;

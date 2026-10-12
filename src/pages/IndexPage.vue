@@ -6,6 +6,7 @@ import { revisions as allRecords } from "../../lib/revisions.mjs";
 import { filterRecords, topicLabel } from "../../lib/wiki-records.mjs";
 import { useWiki } from "../composables/use-wiki.js";
 import RecordList from "../components/RecordList.vue";
+import { asttspGroups, asttspPath, asttspText } from "../../lib/asttsp.mjs";
 const revisions = pullRequestRecords(allRecords);
 const { locale, t, route } = useWiki();
 const router = useRouter();
@@ -36,6 +37,7 @@ const filters = computed(() =>
         kind: String(route.query.kind || ""),
         topic: String(route.query.topic || ""),
         outcome: String(route.query.outcome || ""),
+        asttsp: String(route.query.asttsp || ""),
         sort: String(route.query.sort || "recent"),
       },
 );
@@ -58,6 +60,13 @@ function filter(key, event) {
     </div>
     <h1>{{ title }}</h1>
     <p class="page-intro">{{ description }}</p>
+    <section v-if="view === 'overview' && asttspGroups.length" class="article-summary">
+      <h2>{{ t.asttspTitle }}</h2>
+      <p>{{ t.asttspDescription }}</p>
+      <div class="asttsp-tags">
+        <router-link v-for="group in asttspGroups" :key="group.id" :to="asttspPath(group.id, locale)" class="asttsp-tag"><strong>ASTTSP</strong><span>{{ asttspText(group.title, locale) }}</span></router-link>
+      </div>
+    </section>
     <form class="catalog-search" role="search" @submit.prevent>
       <label for="catalog-search">{{ t.search }}</label
       ><input
@@ -69,6 +78,11 @@ function filter(key, event) {
       />
     </form>
     <div class="catalog-filters">
+      <label>{{ t.asttspRelationship }}<select :value="filters.asttsp" @change="filter('asttsp', $event)">
+        <option value="">{{ t.asttspAll }}</option>
+        <option value="*">{{ t.asttspTagged }}</option>
+        <option v-for="group in asttspGroups" :key="group.id" :value="group.id">{{ asttspText(group.title, locale) }}</option>
+      </select></label>
       <label
         >{{ t.type
         }}<select :value="filters.kind" @change="filter('kind', $event)">

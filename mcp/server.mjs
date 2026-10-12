@@ -8,6 +8,7 @@ import initialAdditional from '../data/reviews.json' with { type: 'json' }
 import { readReviews, saveReview } from './review-store.mjs'
 import { readIssueGuidelines } from './issue-guidelines.mjs'
 import { startRecording, getRecording } from './test-recording.mjs'
+import { asttspGroups } from '../lib/asttsp.mjs'
 
 const site = resolve(import.meta.dirname, '..')
 const builtIn = revisions.filter(
@@ -18,6 +19,7 @@ const reviewSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: text,
   topic: text.optional(),
+  asttsp: z.array(text).max(20).optional(),
   summary: text,
   kind: z.enum(['Issue', 'PR', 'Commit', 'Comparação']),
   status: text,
@@ -70,6 +72,15 @@ export function createReviewServer({
       return { content: [{ type: 'text', text: error.message }], isError: true }
     }
   }
+  server.registerTool(
+    'list_asttsp_groups',
+    {
+      description: 'List registered Alternative Solutions To The Same Problem groups. Tag a PR with review.asttsp containing these IDs when calling save_review.',
+      inputSchema: {},
+      annotations: { readOnlyHint: true }
+    },
+    call(() => asttspGroups)
+  )
   server.registerTool(
     'list_reviews',
     {

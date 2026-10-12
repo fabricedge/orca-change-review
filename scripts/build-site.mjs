@@ -4,6 +4,7 @@ import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { staticRoutes } from "../lib/wiki-records.mjs";
 import { revisions, findRevision } from "../lib/revisions.mjs";
+import { asttspGroups, asttspText } from "../lib/asttsp.mjs";
 await build();
 const serverDir = resolve(".ssr-build");
 try {
@@ -22,9 +23,13 @@ try {
     const html = await render(url);
     const slug = url.split("/").filter(Boolean).at(-1);
     const record = findRevision(slug);
+    const group = url.includes("/asttsp/") ? asttspGroups.find((entry) => entry.id === slug) : null;
+    const locale = url.startsWith("/pt-BR") ? "pt-BR" : "en";
     const title = record
       ? `${record.title} — Orca Change Review`
-      : "Orca Change Review";
+      : group
+        ? `ASTTSP: ${asttspText(group.title, locale)} | Orca Change Review`
+        : url.includes("/asttsp/") ? "ASTTSP | Orca Change Review" : "Orca Change Review";
     const escape = (value) =>
       value.replace(
         /[&<>"']/g,

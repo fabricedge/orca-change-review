@@ -7,6 +7,7 @@ import { useWiki } from "../composables/use-wiki.js";
 import VideoEvidence from "./VideoEvidence.vue";
 import { articlePath } from "../../lib/wiki-records.mjs";
 const props = defineProps({
+  heading: String,
   ids: { type: Array, default: () => variants.map((v) => v.id) },
 });
 const { locale, t } = useWiki();
@@ -36,7 +37,7 @@ function asset(url) {
 </script>
 <template>
   <section id="comparison" class="article-section">
-    <h2>{{ t.compare }}</h2>
+    <h2>{{ heading || t.compare }}</h2>
     <div v-if="available.length > 1" class="comparison-selectors">
       <label
         >{{ t.compare }} A<select v-model="left">

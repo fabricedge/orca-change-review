@@ -1,0 +1,19 @@
+[
+  {
+    "id": "tab-context",
+    "title": { "en": "Share a tab with enough context", "pt-BR": "Compartilhar uma aba com contexto suficiente" },
+    "problem": { "en": "A copied tab ID identifies a tab, but does not tell a reviewer or agent its workspace, group or position. These proposals offer different ways to obtain that context without adding a separate details row to the menu.", "pt-BR": "O ID copiado identifica uma aba, mas não informa ao revisor ou agente seu workspace, grupo ou posição. Estas propostas oferecem formas diferentes de obter esse contexto sem acrescentar uma linha separada de detalhes ao menu." },
+    "shared": { "en": "All three include read-only CLI inspection and the same location JSON. They start from the Copy Tab ID implementation. Choose one alternative; these are not sequential steps to merge together.", "pt-BR": "As três incluem consulta de leitura pelo CLI e o mesmo JSON de localização. Partem da implementação de Copy Tab ID. Escolha uma alternativa; não são etapas consecutivas para mesclar juntas." },
+    "variantIds": ["cli-only", "split-control", "two-columns"],
+    "approachTitles": {
+      "cli-only": { "en": "Details through the CLI", "pt-BR": "Detalhes pelo CLI" },
+      "split-control": { "en": "Compact Details action", "pt-BR": "Ação compacta Details" },
+      "two-columns": { "en": "Full copy labels side by side", "pt-BR": "Rótulos completos lado a lado" }
+    },
+    "approaches": {
+      "cli-only": { "en": "Keep the menu unchanged. The recipient queries details through the CLI; this requires access to a connected Orca CLI.", "pt-BR": "Mantém o menu inalterado. O destinatário consulta os detalhes pelo CLI; isso exige acesso a um CLI conectado ao Orca." },
+      "split-control": { "en": "Place a compact Details action beside Copy Tab ID. Full JSON can be shared in one paste, with a shorter label to explain.", "pt-BR": "Coloca uma ação compacta Details ao lado de Copy Tab ID. O JSON completo pode ser compartilhado em uma colagem, com um rótulo curto que exige explicação." },
+      "two-columns": { "en": "Place both full copy labels side by side. Both formats are explicit, at the cost of more horizontal menu space.", "pt-BR": "Coloca os dois rótulos completos lado a lado. Os formatos ficam explícitos, mas ocupam mais espaço horizontal no menu." }
+    }
+  }
+]

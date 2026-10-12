@@ -5,6 +5,7 @@ import {
   recordDate,
 } from "../../lib/wiki-records.mjs";
 import { useWiki } from "../composables/use-wiki.js";
+import AsttspTags from "./AsttspTags.vue";
 defineProps({ records: { type: Array, required: true } });
 const { locale, t } = useWiki();
 </script>
@@ -18,6 +19,7 @@ const { locale, t } = useWiki();
         ><span class="record-kind">{{ record.kind }}</span>
       </div>
       <p>{{ record.summary }}</p>
+      <AsttspTags :record="record" />
       <div class="record-meta">
         <a v-if="record.pullRequest" :href="record.pullRequest" target="_blank" rel="noopener noreferrer">PR #{{ record.pullRequest.split("/").filter(Boolean).at(-1) }}</a><span>{{ record.repository || t.local }}</span
         ><time v-if="recordDate(record)" :datetime="recordDate(record)"

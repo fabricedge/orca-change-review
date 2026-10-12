@@ -239,3 +239,7 @@ Validation: `npm test`, `npm --prefix mcp test`, `npm run check:changes`, `npm r
 ## License
 
 Released under the [MIT License](LICENSE).
+
+## ASTTSP comparisons
+
+PRs that offer alternative solutions to the same problem can share an **ASTTSP** tag. Browse `/en/asttsp/` or read [how to register groups and tag future PRs](docs/asttsp.md).

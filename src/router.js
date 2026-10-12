@@ -8,6 +8,7 @@ import ArticlePage from "./pages/ArticlePage.vue";
 import SourcesPage from "./pages/SourcesPage.vue";
 import WorkflowPage from "./pages/WorkflowPage.vue";
 import NotFoundPage from "./pages/NotFoundPage.vue";
+import AsttspPage from "./pages/AsttspPage.vue";
 export function makeRouter(ssr = false) {
   return createRouter({
     history: ssr
@@ -25,7 +26,9 @@ export function makeRouter(ssr = false) {
       { path: "/revisoes/:slug", component: ArticlePage },
       { path: "/:locale(en|pt-BR)/changes/:slug", component: ArticlePage },
       { path: "/:locale(en|pt-BR)/sources", component: SourcesPage },
-      { path: "/:locale(en|pt-BR)/tab-copy", component: IndexPage, meta: { view: "changes" } },
+      { path: "/:locale(en|pt-BR)/asttsp", component: AsttspPage },
+      { path: "/:locale(en|pt-BR)/asttsp/:group", component: AsttspPage },
+      { path: "/:locale(en|pt-BR)/tab-copy", redirect: (to) => `/${to.params.locale}/asttsp/tab-context/` },
       { path: "/:locale(en|pt-BR)/workflow", component: WorkflowPage },
       { path: "/:pathMatch(.*)*", component: NotFoundPage },
     ],

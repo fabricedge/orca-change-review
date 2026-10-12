@@ -34,6 +34,7 @@ const links = computed(() => [
   ["overview", t.value.overview],
   ["news", t.value.recent],
   ["changes", t.value.all],
+  ["asttsp", t.value.asttspTitle],
   ["sources", t.value.sources],
   ["workflow", t.value.plan],
 ]);

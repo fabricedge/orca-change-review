@@ -130,9 +130,21 @@ test('MCP client discovers tools, saves a draft, lists and reads it, and receive
     await client.close()
     await server.close()
   })
-  assert.equal((await client.listTools()).tools.length, 6)
+  assert.equal((await client.listTools()).tools.length, 7)
   const saved = await client.callTool({ name: 'save_review', arguments: { review: draft } })
   assert.ok(!saved.isError)
+  const groups = await client.callTool({ name: 'list_asttsp_groups', arguments: {} })
+  assert.equal(JSON.parse(groups.content[0].text)[0].id, 'tab-context')
+  const tagged = await client.callTool({ name: 'save_review', arguments: {
+    review: { ...draft, slug: 'alternative-pr', kind: 'PR', pullRequest: 'https://gitlab.com/team/project/-/merge_requests/9', asttsp: ['tab-context'] }
+  } })
+  assert.ok(!tagged.isError)
+  const taggedRead = await client.callTool({ name: 'get_review', arguments: { slug: 'alternative-pr' } })
+  assert.deepEqual(JSON.parse(taggedRead.content[0].text).asttsp, ['tab-context'])
+  const invalidTag = await client.callTool({ name: 'save_review', arguments: {
+    review: { ...draft, slug: 'invalid-tag', pullRequest: 'https://github.com/team/project/pull/9', asttsp: ['unknown'] }
+  } })
+  assert.equal(invalidTag.isError, true)
   const listed = await client.callTool({
     name: 'list_reviews',
     arguments: { query: 'tab-position' }

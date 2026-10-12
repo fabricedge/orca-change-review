@@ -15,6 +15,7 @@ import ReviewDecision from "../components/ReviewDecision.vue";
 import RecordList from "../components/RecordList.vue";
 import VideoEvidence from "../components/VideoEvidence.vue";
 import NotFoundPage from "./NotFoundPage.vue";
+import AsttspTags from "../components/AsttspTags.vue";
 const { locale, t, route } = useWiki();
 const record = computed(() =>
   findRevision(route.params.slug || "copia-de-abas"),
@@ -42,6 +43,7 @@ async function copy() {
       </nav>
       <header class="article-header">
         <h1>{{ record.title }}</h1>
+        <AsttspTags :record="record" />
         <p class="record-meta">
           <span class="record-kind">{{ record.kind }}</span
           ><span>{{ record.status }}</span>
