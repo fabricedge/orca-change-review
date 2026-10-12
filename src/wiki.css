@@ -524,6 +524,9 @@ article {
   aspect-ratio: 16 / 10;
   object-fit: contain;
 }
+.asttsp-page > .asttsp-tag {
+  margin-top: 24px;
+}
 .article-header {
   padding-bottom: 24px;
 }

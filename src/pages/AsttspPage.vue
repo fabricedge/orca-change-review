@@ -18,7 +18,7 @@ const members = computed(() => group.value ? asttspMembers(group.value, revision
       <span>/</span><router-link v-if="group" :to="`/${locale}/asttsp/`">ASTTSP</router-link>
       <span v-else>ASTTSP</span>
     </nav>
-    <router-link v-if="group" :to="`/${locale}/asttsp/`" class="asttsp-tag asttsp-catalog-link"><strong>ASTTSP</strong><span>{{ members.length }} {{ t.asttspAlternatives }}</span></router-link>
+    <router-link v-if="group" :to="`/${locale}/asttsp/`" class="asttsp-tag"><strong>ASTTSP</strong><span>{{ members.length }} {{ t.asttspAlternatives }}</span></router-link>
     <h1>{{ group ? asttspText(group.title, locale) : t.asttspTitle }}</h1>
     <p class="page-intro">{{ t.asttspDescription }}</p>
     <template v-if="group">
