@@ -3,6 +3,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
 import { resolve } from 'node:path'
 import { revisions } from '../lib/revisions.mjs'
+import manifest from './package.json' with { type: 'json' }
 import initialAdditional from '../data/reviews.json' with { type: 'json' }
 import { readReviews, saveReview } from './review-store.mjs'
 import { readIssueGuidelines } from './issue-guidelines.mjs'
@@ -59,7 +60,7 @@ export function createReviewServer({
   baseReviews = builtIn,
   target = process.env.ORCA_REVIEW_TARGET
 } = {}) {
-  const server = new McpServer({ name: 'orca-review', version: '0.1.0' })
+  const server = new McpServer({ name: 'orca-review', version: manifest.version })
   const result = (value) => ({ content: [{ type: 'text', text: JSON.stringify(value, null, 2) }] })
   const call = (handler) => async (args) => {
     try {

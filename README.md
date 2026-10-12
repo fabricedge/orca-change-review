@@ -1,79 +1,126 @@
 # Orca Review Changes
 
-## Automated test evidence and MCP
+Automated recordings and written evidence for Orca tests and features. Show what the app did, what the assertions checked, and what remains unverified—with references to the relevant PR, commit or issue.
 
-Orca Review Changes creates pages where developers share automated videos of Orca tests and features, alongside descriptions, results and limitations. **These pages do not replace proper review of the PR on GitHub, its code, tests or CI results.** A video alone does not prove that a test passed.
+**[View the website](https://fabricedge.github.io/orca-change-review/)** · [Recording guide](docs/test-recording.md) · [MCP setup](docs/mcp.md) · [Deployment guide](docs/github-pages.md)
 
-The website's **Tests & MCP** page explains the workflow in English and Portuguese. The [recording guide](docs/test-recording.md) and [MCP guide](docs/mcp.md) show how to connect an agent, run an existing Orca Electron E2E spec with video capture, inspect the report and save an evidence page linked to a PR or commit. MCP runs on the developer's host; Pages hosts the resulting static pages and Releases stores reviewed videos.
+Created by: [fabricedge](https://github.com/fabricedge)
 
-Issue preparation supports reports of problems found in tests. A local draft does not require a PR or commit. Identify the actual user problem, follow the target repository's current issue guidelines, and keep unrelated work out of an oversized PR.
+> Evidence pages support code review. They do not replace proper review of the GitHub PR, its code, tests or CI results. A video alone does not prove that a test passed.
+
+## Purpose
+
+Orca Review Changes gives developers a place to publish automated videos of the real Orca app alongside descriptions, test outcomes and coverage limits. Use a page to explain a feature, demonstrate a regression or share evidence from a specific test run.
+
+The local MCP runs tests and records the app on the developer's execution host. GitHub Releases stores reviewed videos. GitHub Pages serves the generated website; it does not run the MCP or Electron tests.
+
+## Workflow
+
+1. Select an Orca Electron E2E spec for the feature or regression.
+2. Record the real app and inspect the video and test report.
+3. Describe the observed behavior, assertions, outcome and limitations.
+4. Save the evidence against a PR, commit or issue.
+5. Upload reviewed videos to Releases and publish the evidence page through Pages.
+
+Failed and incomplete results must remain clearly labeled. Do not infer a passing test from a video or a successful build alone.
 
 ## Create your own Orca Review
 
-Publish your own Orca changes, PR descriptions and recordings using this site:
+1. Fork this repository and clone your fork.
+2. Install Node.js 24 or later. Run `npm ci` when your clone includes a lockfile, or `npm install` for a fresh installation without one.
+3. Replace the examples in `lib/revisions.mjs`, or use MCP to add records to `data/reviews.json`. See [adding changes](docs/adding-changes.md).
+4. Set `NEXT_PUBLIC_SITE_REPOSITORY=your-username/your-repository` in `.env.local` for previews. The topbar derives the owner and source links from this value. The Pages workflow sets it automatically.
+5. Update the website and author links in this README for your fork. Remove the example `media/releases.json` before importing your own recordings.
+6. Enable **Settings → Pages → Build and deployment → GitHub Actions** and push to `main`.
 
-1. Fork this repository into your GitHub account and clone your fork. Keep it public for the free GitHub Pages workflow.
-2. Install Node.js 24 or later, then run `npm ci`.
-3. Replace the examples in `lib/revisions.mjs` with your reviews, or use MCP to add records to `data/reviews.json`. Each entry needs an issue, problem-first issue draft, PR URL or commit, its description, and `createdAt` / `updatedAt` timestamps in ISO 8601 format with a timezone. Run `npm run check:changes`.
-4. Set `NEXT_PUBLIC_SITE_REPOSITORY=your-username/your-repository` in `.env.local` for local previews. The topbar derives your GitHub username and repository links from this value. The Pages workflow sets it automatically from your fork's repository.
-5. Set the page timestamps in `lib/review-site.mjs`. Preserve `createdAt` when editing; change `updatedAt` only when the page content changes. Dates describe review pages, not the age of a PR, recording or deployment. For existing pages, creation uses their first site publication; new individual reviews start when introduced. Timestamps display in UTC and do not change merely because someone reloads or rebuilds the site.
-6. Remove the example `media/releases.json` before importing your own recordings. Configure `ORCA_SOURCE` in `.env.local` if you record from an Orca checkout. Publish your videos to your own GitHub Releases using the [release guide](docs/github-releases.md); keep video files out of Git.
-7. In **Settings → Pages → Build and deployment**, select **GitHub Actions**. Push to `main` or manually run the **Pages** workflow. See the [Pages guide](docs/github-pages.md) for the workflow and troubleshooting.
+Keep `createdAt` unchanged when editing a page and update `updatedAt` when its content changes. Use ISO 8601 datetimes with a timezone. Dates describe the evidence pages, not PR creation or deployment times, and display in UTC. Site-level dates live in `lib/review-site.mjs`.
 
-Preview with `npm run dev`. Check the static export with `ORCA_GITHUB_PAGES=1 NEXT_PUBLIC_BASE_PATH=/your-repository npm run build -- --webpack` on Linux/macOS; on Windows, set these environment variables in your shell before running the build. A GitHub Pages site is public: publish only review content and media you intend to share.
-
-The **Create your own Orca Review** link in the topbar points to this section in the configured repository. All topbar identity and invitation text is available in English and Portuguese.
-
-Para publicar o site estático no GitHub Pages: [guia de deploy](docs/github-pages.md). O comando único no checkout Orca é `bash artifacts/deploy-orca-pages.sh`.
-
-## GitHub Releases e próximas mudanças
-
-Use `bash scripts/publish-github.sh` para criar o repositório público `orca-change-review`, publicar o código e enviar vídeos para um Release. O manifesto versionado aponta para os assets externos; vídeos não entram no Git. [Guia de publicação](docs/github-releases.md).
-
-Cada mudança tem sua própria página e precisa de um PR ou commit. As três alternativas de cópia também aparecem separadas no catálogo, além da comparação conjunta. [Como adicionar mudanças](docs/adding-changes.md). Rode `npm run check:changes` antes de publicar.
-
-Servidor Next.js para revisar mudanças do Orca pelo navegador. A página inicial é o catálogo de PRs e comparações, com busca compartilhável, evidências, comparação A/B e decisões locais por commit. Sem autenticação própria: use na sua rede Tailscale.
-
-## Idiomas e URLs
-
-A raiz `/` abre `/revisoes`, em português. As demonstrações anteriores continuam em `/en/tab-copy` e `/pt-BR/tab-copy`, com seletor de idioma. O catálogo ainda não tem tradução completa. Branches, commits e conteúdo gravado não são traduzidos.
-
-Para atualizar o site que já foi instalado:
+## Local development
 
 ```sh
-node /home/katrina/projects/orca/artifacts/install-orca-changes-stuff.mjs --update-site
-```
-
-Edite somente a fonte em `orca/artifacts/orca-changes-stuff`; a pasta irmã é a instalação. O comando valida os registros e o build em uma pasta temporária antes de publicar, guarda backup em `.orca-site-backups` e preserva `.env.local`, mídias e dependências. Acrescente `--check-only` para validar sem publicar. Reinicie `npm run dev` e abra `/revisoes`. Veja [melhorias e limites](docs/melhorias-funcionais.md).
-
-## Instalar no local pedido
-
-O sandbox não permite escrever em `../orca-changes-stuff`. O projeto foi preparado dentro de `orca/artifacts/`. Execute fora do sandbox:
-
-```sh
-node /home/katrina/projects/orca/artifacts/install-orca-changes-stuff.mjs
-cd /home/katrina/projects/orca-changes-stuff
-npm install
 npm run dev
 ```
 
-O instalador recusa sobrescrever uma pasta que já contenha arquivos. Precisa de Node 24 e acesso ao registro npm para instalar Next.js.
+The development server listens on `0.0.0.0:3100`. For a local production server, run `npm run build`, then `npm start`. A Pages export is hosted by GitHub Pages instead of `npm start`.
 
-O servidor usa `0.0.0.0:3100`. No celular conectado à mesma rede Tailscale, abra `http://IP-TAILSCALE-DO-PC:3100`. O IP pode ser consultado no PC com `tailscale ip -4`.
+| Route              | Content                                            |
+| ------------------ | -------------------------------------------------- |
+| `/revisoes/`       | Evidence and review catalog; currently Portuguese. |
+| `/revisoes/SLUG/`  | Individual review or evidence page.                |
+| `/en/tab-copy/`    | English comparison of three tab-copy alternatives. |
+| `/pt-BR/tab-copy/` | Portuguese comparison of the same alternatives.    |
+| `/en/workflow/`    | English test recording, MCP and issue guidance.    |
+| `/pt-BR/workflow/` | Portuguese workflow guidance.                      |
 
-Alternativa HTTPS:
+The Pages root opens the English comparison; the development root opens the catalog. Catalog translations are not complete. Language switching preserves branch names, commit IDs and recorded video content.
+
+For Tailscale access, keep the server running and open `http://YOUR-TAILSCALE-IP:3100` from another device on the tailnet. Find the IP with `tailscale ip -4`. An HTTPS alternative is:
 
 ```sh
 tailscale serve --bg --https=8444 http://127.0.0.1:3100
 ```
 
-Abra o endereço informado. O servidor precisa continuar rodando no PC. Para uma execução de produção: `npm run build` seguido de `npm start`.
+Use the URL printed by Tailscale. The site has no application-level authentication.
 
-## Rodar as três versões e gravar o Orca completo
+## MCP integration
 
-O importador publica vídeos apenas quando `capture.json` confirma `kind: orca-app`. Os vídeos antigos de componentes isolados ficam ocultos. Se a página disser que não há gravação completa, `import:orca` sozinho não resolve: primeiro execute o gravador. O roteiro mostra o workspace, abre README.md e CLAUDE.md, troca de aba e demonstra o menu de cópia. O importador adiciona uma versão às URLs de mídia para o navegador não reutilizar o vídeo antigo em cache.
+```sh
+npm --prefix mcp install
+npm --prefix mcp run smoke
+```
 
-Na pasta `orca-changes-stuff`, execute:
+The smoke command checks stdio connection and tool discovery; it does not launch a recording. Configure your client to run `node` with the absolute path to `mcp/server.mjs`. Set `ORCA_REVIEW_TARGET` to the target Orca checkout.
+
+| Tool               | Purpose                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------- |
+| `record_orca_test` | Record one existing Orca Electron E2E spec, or validate its plan with `checkOnly: true`. |
+| `get_recording`    | Retrieve execution state, test outcome, report counts and video paths.                   |
+| `list_reviews`     | Search recorded reviews.                                                                 |
+| `get_review`       | Read a review's text, evidence and source references.                                    |
+| `save_review`      | Save a local review, optionally attaching a completed capture and published video URLs.  |
+| `issue_guidance`   | Read contribution rules and issue templates from the configured checkout.                |
+
+Recording reuses Orca's test configuration and recording-capable Electron fixture, rebuilds the app and captures hidden renderers with `ORCA_BACKGROUND_LAUNCH=1` and `ORCA_E2E_HEADLESS=1`. Visible-window and native-focus tests are excluded. Run MCP on the host containing the checkout and review data, including for SSH development.
+
+Follow the [MCP setup guide](docs/mcp.md) and [recording guide](docs/test-recording.md) for prerequisites, publication steps and limitations.
+
+## Deploy to GitHub Pages
+
+Commit and push the reviewed website source and `data/reviews.json` to `main`. Follow **Deploy GitHub Pages** in Actions, then open the URL reported by the deployment job. The workflow validates the catalog, exports Next.js with the repository base path and checks the generated routes. Use published Release URLs for videos; local recordings are not available to the GitHub-hosted build.
+
+For the original Orca checkout and its sibling installation, run:
+
+```sh
+bash /home/katrina/projects/orca/artifacts/deploy-orca-pages.sh
+```
+
+This script updates the installed website, validates the build, commits and pushes the changes, starts the deployment and waits for its result. It does not automatically publish new generic test recordings. See the [deployment guide](docs/github-pages.md).
+
+To check a static export on Linux/macOS:
+
+```sh
+ORCA_GITHUB_PAGES=1 NEXT_PUBLIC_BASE_PATH=/your-repository npm run build -- --webpack
+```
+
+On Windows, set those environment variables in your shell before running the build.
+
+### Repository description and website link
+
+The repository's About section should use this description:
+
+> Automated Orca test recordings and feature evidence, linked to PRs, commits and issues. Created by: fabricedge.
+
+Set its Website field to `https://fabricedge.github.io/orca-change-review/`. The included script applies both fields with an authenticated GitHub CLI:
+
+```sh
+bash scripts/update-repository-about.sh
+```
+
+For a fork, pass your repository, Pages URL and author as its three arguments.
+
+## Three-variant tab-copy demonstration
+
+The specialized recorder builds separate CLI-only, Details-hint and two-column alternatives:
 
 ```sh
 npm run record:orca
@@ -81,48 +128,74 @@ npm run import:orca
 npm run dev
 ```
 
-O primeiro comando cria três clones temporários, busca os commits no bundle local, instala dependências com pnpm e compila cada versão. Depois inicia o aplicativo Electron completo, uma versão por vez, com perfis e projetos descartáveis. Usa o fixture Playwright dos testes do Orca para abrir um projeto e `README.md`, abrir o menu da aba, copiar o ID e, nas duas variantes com detalhes, mostrar o tooltip e copiar o JSON. Confere a área de transferência real do Electron e as notificações. Não exige configurar URLs nem iniciar os apps manualmente.
+It creates temporary clones from the local variant bundle, installs dependencies, builds each app and records the full Orca UI with disposable profiles and projects. The CLI-only video shows its menu; it does not execute the CLI inspection command.
 
-As janelas ficam ocultas com `ORCA_BACKGROUND_LAUNCH=1` e `ORCA_E2E_HEADLESS=1`; a captura usa o renderer via Playwright/CDP. Cada aplicativo encerra após sua gravação. Não altera seu checkout, perfil ou branches. As versões são alternativas. Os vídeos mostram o aplicativo completo com dados de demonstração. A variante CLI-only demonstra a ausência de detalhes no menu; não executa o comando CLI no vídeo.
-
-Requisitos: Node 24, Git, pnpm, dependências de sistema do Electron e acesso ao registro para instalar dependências. A primeira execução compila três apps e pode demorar e ocupar vários GB. Em Linux precisa de sessão gráfica; sem `DISPLAY`, execute a partir do checkout Orca:
-
-```sh
-xvfb-run -a node artifacts/tab-copy-prs/recording/run-three.mjs
-```
-
-Não precisa de Chromium separado: usa o Electron instalado em cada clone. No macOS/Windows execute o comando npm normalmente. Os vídeos usam a área de transferência do sistema durante a demonstração.
-
-Os resultados ficam em `ORCA_SOURCE/artifacts/tab-copy-prs/images/videos`: três `.webm`, screenshots, `capture.json` e `index.html`. Os vídeos antigos só são substituídos quando as três gravações passam. Em caso de erro, o log informa o diretório temporário com clones, resultados e gravações parciais; os vídeos anteriores continuam disponíveis. Os clones são preservados e podem ser apagados depois.
-
-Para conferir bundle e base Git sem abrir apps:
+Requirements include Node.js 24, Git, pnpm, Electron system dependencies, registry access and sufficient temporary disk space. On Linux, provide a graphical session or an isolated Xvfb display. To validate the bundle and base commit without launching apps:
 
 ```sh
 npm run record:orca -- --check
 ```
 
-O gravador e seu teste estão no checkout Orca em `artifacts/tab-copy-prs/recording/`. Se o projeto Next já existia antes deste comando npm, atualize somente o gravador e sua documentação:
+Before artifact migration, output lives under `ORCA_SOURCE/artifacts/tab-copy-prs/images/videos`; after migration, it lives under the review installation's `orca-artifacts/tab-copy-prs/images/videos`. Failed runs preserve prior complete recordings and report temporary directories for diagnosis.
+
+The importer requires `capture.json` to identify a full `orca-app` recording. A tracked Release manifest takes precedence over local imports. Importing media does not upload it or replace Release assets. See the [Releases guide](docs/github-releases.md) for this specialized demonstration and the [recording guide](docs/test-recording.md) for other specs.
+
+## Issues as supporting context
+
+When a test exposes a problem, describe the actual user goal, observed behavior, expected result and workflow impact. Read the target repository's current issue guidelines and search for duplicates. Keep the problem separate from a proposed solution.
+
+A local issue draft does not require a PR or commit and is not a published issue. Keep one user problem per issue; separate unrelated work rather than growing one PR indefinitely. The project's main purpose remains test and feature evidence.
+
+## Update the original sibling installation
+
+Before artifact migration, the prepared source lives in `orca/artifacts/orca-changes-stuff`; the sibling `../orca-changes-stuff` is its installation. Update it with:
 
 ```sh
-node /home/katrina/projects/orca/artifacts/install-orca-changes-stuff.mjs --update-recording
+node /home/katrina/projects/orca/artifacts/install-orca-changes-stuff.mjs --update-site
 ```
 
-Essa opção adiciona `record:orca` ao `package.json`, atualiza o script e salva este guia como `RECORDING.md` no projeto existente. Preserva o README e as outras entradas do package.json. A instalação normal continua recusando sobrescrever pastas existentes.
+The updater validates in a temporary directory, backs up replaced files and preserves developer records, local environment files and media. Add `--check-only` to validate without applying changes. Restart the server afterward. Reinstall MCP dependencies if its directory was replaced.
 
-## Atualizar mídias
+In a fork of the review repository, edit your clone directly; these original-checkout installer paths are not required.
 
-`npm run dev` e `npm run build` importam automaticamente os vídeos e imagens do checkout irmão `../orca`. Para atualizar com o servidor rodando:
+## Suggested Pages improvements
 
-```sh
-npm run import:orca
-```
+These are proposed improvements, not features already implemented:
 
-Depois atualize a página. Para outro checkout, defina `ORCA_SOURCE` no ambiente ou em `.env.local`. O instalador já grava o caminho deste checkout nesse arquivo.
+1. **Lead with the evidence catalog.** Show recent test runs, outcomes and related PRs or commits instead of opening the historical tab-copy comparison.
+2. **Preserve a page per execution.** Keep failed runs and earlier successful runs accessible with their tested commit and local-change state.
+3. **Complete English routes and translations.** Localize the catalog and detail pages while preserving existing links through aliases or redirects.
+4. **Make videos easier to inspect.** Add posters, test-step chapters and captions or transcripts, explaining which assertions each segment supports.
+5. **Filter by result and context.** Add outcome, platform, feature, PR and commit filters. Keep report results distinct from author-written descriptions.
+6. **Check published evidence links.** Verify expected video assets and page URLs before declaring deployment complete; report broken references clearly.
+7. **Generate a PR evidence summary.** Provide a copyable page link with the observed behavior, result and coverage limits, including the code-review reminder.
 
-A importação copia apenas arquivos conhecidos de `artifacts/tab-copy-prs/images/videos`, o bundle dos commits e a fonte Geist. Não serve a pasta do repositório nem arquivos arbitrários. Não modifica o Orca ou seus branches.
+## Validation and known limits
 
-Para adicionar revisões ao catálogo, edite `lib/revisions.mjs` na fonte e rode `node scripts/check-revisions.mjs`. Novas variantes de mídia também exigem ampliar `lib/tab-copy-variants.mjs` e o importador. As mídias ficam em `public/media`; nenhum serviço externo recebe os arquivos.
+Static export, focused lint and regression checks for catalog validation, update safety, MCP handlers, recording plans and outcome classification passed in the development environment. A temporary fixture verified rendering of a failed test, its video link and the review disclaimer.
 
-## Validação
+A new real Electron recording through this MCP integration still needs validation. The sandbox returned EOF on child-process stdin, preventing validation of the stdio handshake there; run the smoke command outside that environment. Existing videos do not establish that the new integration works end to end. See [MCP limitations](docs/mcp.md) and [previous website validation](docs/melhorias-funcionais.md).
 
-Build isolado, lint focado, testes de segurança de atualização e fluxos reais no navegador passaram. Consulte docs/melhorias-funcionais.md para escopo, resultados e limitações.
+### Catalog and source references
+
+The catalog supports a shareable search, change type and recorded test outcome, with sorting by update date or title. A video without a recorded test result is never labeled as passed. Each entry shows every registered PR, issue and commit, and its last update date.
+
+Use `repository: "owner/repository"` for a published GitHub repository, `pullRequest` and `issue` for full HTTPS links, and `commits: [{ "id": "abcdef0", "label": "Describe the change" }]`. Commit links are generated from that repository. For local branches, omit `repository` until the commits are published; the site displays their IDs with an explicit publication notice rather than sending readers to broken links. Publish the branch, confirm each commit exists on the remote, then update the review and rebuild Pages.
+
+The shared navigation explains the evidence catalog, the tab-copy comparison and the MCP recording workflow. It also links to this repository and the instructions for creating your own review site.
+
+### Open a local preview from the topbar
+
+Choose **Check locally**, enter your localhost URL and port (default `http://localhost:3100`), or enter a Tailscale IP or full HTTP/HTTPS link, including the port when needed. Select your preferred connection and click **Save preference**, then **Open**. Addresses and the selected connection stay in this browser’s local storage; you can edit them at any time. They are not published to the repository or shared with other visitors.
+
+Localhost refers to the device viewing the page. From your phone, use the development computer’s Tailscale address instead. Start the server on that computer and make it reachable through Tailscale. The website opens the address you provide; it does not start the server or verify connectivity.
+
+## Development and automation
+
+- [Local deployment, ports and Tailscale](docs/local-development.md)
+- [Use MCP after a feature, fix or investigation](docs/automation.md)
+- [Contributing](CONTRIBUTING.md)
+- [Versioning and release process](docs/releases.md)
+- [Changelog](CHANGELOG.md)
+
+Run `npm run deploy:local` for a local preview. Version the site and MCP together with `npm run version:set -- 0.2.0`. After-change recording is opt-in and uses the same MCP tools as your agent; see the automation guide before enabling it in a task runner.

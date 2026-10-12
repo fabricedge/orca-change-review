@@ -2,28 +2,37 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { ReviewReferences } from './review-references'
 import { formatRecordedDate, revisionHref } from '../lib/revisions.mjs'
 
 export function RevisionCatalog({ revisions }) {
   const [query, setQuery] = useState('')
   const [kind, setKind] = useState('')
+  const [outcome, setOutcome] = useState('')
+  const [sort, setSort] = useState('recent')
   useEffect(() => {
     const restore = () => {
       const params = new URLSearchParams(window.location.search)
       setQuery(params.get('q') || '')
       setKind(params.get('tipo') || '')
+      setOutcome(params.get('resultado') || '')
+      setSort(params.get('ordem') || 'recent')
     }
     restore()
     window.addEventListener('popstate', restore)
     return () => window.removeEventListener('popstate', restore)
   }, [])
-  function updateFilters(nextQuery, nextKind) {
+  function updateFilters(nextQuery, nextKind, nextOutcome = outcome, nextSort = sort) {
     setQuery(nextQuery)
     setKind(nextKind)
+    setOutcome(nextOutcome)
+    setSort(nextSort)
     const url = new URL(window.location.href)
     for (const [key, value] of [
       ['q', nextQuery],
-      ['tipo', nextKind]
+      ['tipo', nextKind],
+      ['resultado', nextOutcome],
+      ['ordem', nextSort === 'recent' ? '' : nextSort]
     ]) {
       if (value) {
         url.searchParams.set(key, value)
@@ -54,8 +63,8 @@ export function RevisionCatalog({ revisions }) {
         revision.issueDraft?.problem ?? ''
       ].join(' ')
     )
-    return (!kind || revision.kind === kind) && haystack.includes(needle)
-  })
+    return (!kind || revision.kind === kind) && (!outcome || (revision.testEvidence?.outcome ?? 'not-run') === outcome) && haystack.includes(needle)
+  }).sort((a, b) => sort === 'title' ? a.title.localeCompare(b.title) : (Date.parse(b.updatedAt ?? b.createdAt ?? 0) - Date.parse(a.updatedAt ?? a.createdAt ?? 0)) * (sort === 'oldest' ? -1 : 1))
 
   return (
     <section aria-label="Catálogo de revisões">
@@ -81,6 +90,20 @@ export function RevisionCatalog({ revisions }) {
           </select>
         </label>
       </div>
+      <div className="catalog-tools catalog-secondary">
+        <label>Resultado registrado
+          <select value={outcome} onChange={(event) => updateFilters(query, kind, event.target.value)}>
+            <option value="">Todos os resultados</option>
+            <option value="passed">Passou</option><option value="failed">Falhou</option>
+            <option value="incomplete">Incompleto</option><option value="not-run">Sem resultado de teste</option>
+          </select>
+        </label>
+        <label>Ordenar por
+          <select value={sort} onChange={(event) => updateFilters(query, kind, outcome, event.target.value)}>
+            <option value="recent">Atualizações recentes</option><option value="oldest">Atualizações antigas</option><option value="title">Título</option>
+          </select>
+        </label>
+      </div>
       <p className="catalog-count" role="status">
         {visible.length} de {revisions.length} revisões
       </p>
@@ -97,7 +120,7 @@ export function RevisionCatalog({ revisions }) {
           {revisions.length > 0 && (
             <button
               onClick={() => {
-                updateFilters('', '')
+                updateFilters('', '', '', 'recent')
               }}
             >
               Limpar busca e filtros
@@ -133,17 +156,9 @@ export function RevisionCatalog({ revisions }) {
               </div>
               <div className="review-state">
                 <p>{revision.status}</p>
-                {revision.pullRequest ? (
-                  <a href={revision.pullRequest}>Abrir PR</a>
-                ) : revision.issue ? (
-                  <a href={revision.issue}>Abrir issue</a>
-                ) : revision.issueDraft ? (
-                  <p className="note">Rascunho de issue · ainda não publicado</p>
-                ) : (
-                  <p className="note">
-                    Commit <code>{revision.commits[0].id}</code>
-                  </p>
-                )}
+                <p className="note">{({ passed: 'Teste passou', failed: 'Teste falhou', incomplete: 'Teste incompleto', 'not-run': 'Sem resultado de teste' })[revision.testEvidence?.outcome ?? 'not-run']}</p>
+                <ReviewReferences revision={revision} />
+                {revision.updatedAt && <p className="note">Atualizada em <time dateTime={revision.updatedAt}>{formatRecordedDate(revision.updatedAt)}</time></p>}
                 {revision.recordedAt && (
                   <p className="note">
                     Registro de{' '}

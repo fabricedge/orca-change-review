@@ -1,0 +1,26 @@
+name: Check site and MCP
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      ORCA_BACKGROUND_LAUNCH: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install site dependencies
+        run: if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Install MCP dependencies
+        run: if [ -f mcp/package-lock.json ]; then npm --prefix mcp ci; else npm --prefix mcp install; fi
+      - run: npm run check:changes
+      - run: npm run test:preview
+      - run: npm --prefix mcp test
+      - run: npm run build -- --webpack

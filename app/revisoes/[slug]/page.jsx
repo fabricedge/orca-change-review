@@ -11,6 +11,7 @@ import { RevisionSections } from '../../revision-sections'
 import { PageDates } from '../../page-dates'
 import { IssueProblem } from '../../issue-problem'
 import { TestEvidence } from '../../test-evidence'
+import { ReviewReferences } from '../../review-references'
 
 export function generateStaticParams() {
   return revisions.map((revision) => ({ slug: revision.slug }))
@@ -49,21 +50,7 @@ export default async function RevisionPage({ params }) {
         <h1>{revision.title}</h1>
         <PageDates dates={revision} locale="pt-BR" />
         <p>{revision.summary}</p>
-        {revision.issue && (
-          <a className="reading-link" href={revision.issue}>
-            Abrir issue no repositório
-          </a>
-        )}
-        {revision.repository && (
-          <a
-            className="reading-link"
-            href={`https://github.com/${revision.repository}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Repositório: {revision.repository}
-          </a>
-        )}
+        <ReviewReferences revision={revision} />
         <p className="implementation-note">{revision.implementation}</p>
         {revision.recordedAt && (
           <p className="note">
@@ -72,30 +59,7 @@ export default async function RevisionPage({ params }) {
             Consulte o PR para ver o estado atual.
           </p>
         )}
-        {revision.pullRequest && (
-          <a className="reading-link" href={revision.pullRequest}>
-            Abrir PR no GitHub
-          </a>
-        )}
-        {revision.commits.length > 0 && (
-          <section aria-label="Referências da mudança">
-            <h2>Commits desta mudança</h2>
-            <ul>
-              {revision.commits.map((commit) => (
-                <li key={commit.id}>
-                  {revision.repository ? (
-                    <a href={`https://github.com/${revision.repository}/commit/${commit.id}`}>
-                      <code>{commit.id}</code>
-                    </a>
-                  ) : (
-                    <code>{commit.id}</code>
-                  )}
-                  <span>{commit.label}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
+
       </div>
       <nav className="version-nav" aria-label="Nesta revisão">
         {navigation.map((section) => (

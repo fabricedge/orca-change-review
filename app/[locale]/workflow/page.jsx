@@ -1,7 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
-import { ReviewIdentity, CreateReviewLink } from '../../review-identity'
-import { LanguageSwitch } from '../../language-switch'
+import { SiteHeader } from '../../site-header'
 import { PageDates } from '../../page-dates'
 import { siteRepositoryUrl } from '../../../lib/review-site.mjs'
 
@@ -57,14 +55,7 @@ export default async function WorkflowPage({ params }) {
   const t = content[locale]
   return (
     <>
-      <header className="site-header">
-        <ReviewIdentity locale={locale} />
-        <div className="header-actions">
-          <Link href="/revisoes">{t.back}</Link>
-          <LanguageSwitch />
-          <CreateReviewLink locale={locale} />
-        </div>
-      </header>
+      <SiteHeader locale={locale} active="workflow" />
       <main>
         <div className="intro">
           <h1>{t.title}</h1>

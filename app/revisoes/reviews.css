@@ -294,3 +294,6 @@
     padding-top: 0;
   }
 }
+
+.reviews-root .review-navigation { display: grid; }
+.catalog-secondary { border-top: 0; padding-top: 0; }

@@ -12,7 +12,10 @@
     "start": "next start --hostname 0.0.0.0 --port 3100",
     "record:orca": "node scripts/record-orca-variants.mjs",
     "publish:github": "bash scripts/publish-github.sh",
-    "check:changes": "node scripts/check-revisions.mjs"
+    "check:changes": "node scripts/check-revisions.mjs",
+    "deploy:local": "node scripts/deploy-local.mjs",
+    "version:set": "node scripts/version.mjs",
+    "test:preview": "node --test lib/local-preview.test.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",

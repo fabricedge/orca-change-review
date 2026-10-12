@@ -1,6 +1,7 @@
 import React from 'react'
 import { variants } from '../lib/tab-copy-variants.mjs'
 import { VideoPlayer } from './video-player'
+import { ReviewReferences } from './review-references'
 
 export function TabComparison({ media, items = variants }) {
   return (
@@ -21,14 +22,7 @@ export function TabComparison({ media, items = variants }) {
             <div className="variant-footer">
               <div className="commits">
                 <code>{variant.branch}</code>
-                <ul>
-                  {variant.commits.map((commit) => (
-                    <li key={commit.id}>
-                      <code>{commit.id}</code>
-                      <span>{commit.label}</span>
-                    </li>
-                  ))}
-                </ul>
+                <ReviewReferences revision={{ commits: variant.commits }} />
               </div>
               <div className="downloads">
                 {assets.video && (

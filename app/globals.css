@@ -369,3 +369,26 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+.review-header { align-items: start; padding-top: 24px; }
+.local-preview { margin: 0; max-width: 100%; }
+.local-preview form { width: min(100%, 420px); padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--background); }
+.local-preview label { display: grid; gap: 8px; margin-bottom: 16px; }
+.local-preview input, .local-preview select { width: 100%; min-width: 0; min-height: 44px; padding: 8px 12px; font: inherit; background: var(--background); color: var(--foreground); border: 1px solid var(--foreground); border-radius: var(--radius); }
+.local-preview input:focus-visible { outline: 2px solid var(--foreground); outline-offset: 4px; }
+.preview-address { overflow-wrap: anywhere; margin-top: 12px; }
+.header-introduction { max-width: 600px; }
+.header-introduction > p { margin: 12px 0 0; color: var(--muted-foreground); }
+.review-navigation { display: grid; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+.review-navigation a { display: flex; align-items: start; flex-direction: column; padding: 8px 12px; text-decoration: none; border-radius: var(--radius); }
+.review-navigation a[aria-current="page"], .review-navigation a:hover { background: var(--muted); }
+.review-navigation small { color: var(--muted-foreground); font-weight: 400; }
+.reference-links { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.review-references a { min-height: 44px; display: inline-flex; align-items: center; }
+.review-references li { align-items: center; flex-wrap: wrap; overflow-wrap: anywhere; }
+.review-references .note { margin-top: 8px; }
+@media (max-width: 600px) { .review-navigation { grid-template-columns: 1fr; gap: 4px; } }
+
+.deploy-instructions { max-width: 420px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); }
+.deploy-instructions pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--muted); padding: 12px; }
+.deploy-instructions .note { margin-top: 12px; }

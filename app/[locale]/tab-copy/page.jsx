@@ -3,11 +3,9 @@ import { variants } from '../../../lib/tab-copy-variants.mjs'
 import { readImportedMedia } from '../../../lib/read-imported-media.mjs'
 import { getMessages } from '../../../lib/i18n.mjs'
 import { VideoPlayer } from '../../video-player'
-import { LanguageSwitch } from '../../language-switch'
-import Link from 'next/link'
-import { ReviewIdentity, CreateReviewLink } from '../../review-identity'
+import { ReviewReferences } from '../../review-references'
+import { SiteHeader } from '../../site-header'
 import { PageDates } from '../../page-dates'
-import { siteRepositoryUrl } from '../../../lib/review-site.mjs'
 
 export default async function Page({ params }) {
   const { locale } = await params
@@ -26,19 +24,7 @@ export default async function Page({ params }) {
       <a className="skip-link" href="#versions">
         {t.skip}
       </a>
-      <header className="site-header">
-        <ReviewIdentity locale={locale} />
-        <div className="header-actions">
-          <Link href="/revisoes">{t.reviews}</Link>
-          <Link href={`/${locale}/workflow`}>{t.testWorkflow}</Link>
-          <a href={siteRepositoryUrl} target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <a href="#versions">{t.tabCopy}</a>
-          <LanguageSwitch />
-          <CreateReviewLink locale={locale} />
-        </div>
-      </header>
+      <SiteHeader locale={locale} active="comparison" />
       <main>
         <div className="intro">
           <p className="eyebrow">{t.eyebrow}</p>
@@ -74,14 +60,7 @@ export default async function Page({ params }) {
                 <div className="variant-footer">
                   <div className="commits">
                     <code>{variant.branch}</code>
-                    <ul>
-                      {variant.commits.map((commit) => (
-                        <li key={commit.id}>
-                          <code>{commit.id}</code>
-                          <span>{commit.label}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <ReviewReferences revision={{ commits: variant.commits }} locale={locale} />
                   </div>
                   <div className="downloads">
                     {assets.video && (
