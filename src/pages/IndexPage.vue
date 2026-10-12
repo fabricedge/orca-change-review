@@ -1,10 +1,12 @@
 <script setup>
+import { pullRequestRecords } from "../../lib/wiki-records.mjs";
 import { computed, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { revisions } from "../../lib/revisions.mjs";
+import { revisions as allRecords } from "../../lib/revisions.mjs";
 import { filterRecords, topicLabel } from "../../lib/wiki-records.mjs";
 import { useWiki } from "../composables/use-wiki.js";
 import RecordList from "../components/RecordList.vue";
+const revisions = pullRequestRecords(allRecords);
 const { locale, t, route } = useWiki();
 const router = useRouter();
 const hydrated = ref(false);
@@ -100,7 +102,6 @@ function filter(key, event) {
     </div>
     <nav v-if="view === 'overview'" class="index-navigation">
       <router-link :to="`/${locale}/sources/`">{{ t.sources }}</router-link
-      ><router-link :to="`/${locale}/tab-copy/`">{{ t.compare }}</router-link
       ><router-link :to="`/${locale}/workflow/`">{{ t.plan }}</router-link>
     </nav>
     <section>

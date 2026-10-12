@@ -1,8 +1,10 @@
 <script setup>
-import { revisions } from "../../lib/revisions.mjs";
+import { pullRequestRecords } from "../../lib/wiki-records.mjs";
+import { revisions as allRecords } from "../../lib/revisions.mjs";
 import { recordSources } from "../../lib/wiki-records.mjs";
 import { useWiki } from "../composables/use-wiki.js";
 import RecordList from "../components/RecordList.vue";
+const revisions = pullRequestRecords(allRecords);
 const { t } = useWiki();
 const sources = recordSources(revisions);
 </script>

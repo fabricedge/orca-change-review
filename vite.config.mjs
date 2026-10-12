@@ -20,6 +20,8 @@ export default defineConfig(({ mode }) => {
       },
     ],
     define: {
+      "process.env.NEXT_PUBLIC_SITE_REPOSITORY": JSON.stringify(env.NEXT_PUBLIC_SITE_REPOSITORY || ""),
+      "process.env.NEXT_PUBLIC_SITE_COMMIT": JSON.stringify(env.NEXT_PUBLIC_SITE_COMMIT || ""),
       "env.NEXT_PUBLIC_SITE_REPOSITORY": JSON.stringify(
         env.NEXT_PUBLIC_SITE_REPOSITORY || "",
       ),

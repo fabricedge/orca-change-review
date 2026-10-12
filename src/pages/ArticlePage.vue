@@ -13,7 +13,6 @@ import SourceReferences from "../components/SourceReferences.vue";
 import RevisionHistory from "../components/RevisionHistory.vue";
 import ReviewDecision from "../components/ReviewDecision.vue";
 import RecordList from "../components/RecordList.vue";
-import TabComparison from "../components/TabComparison.vue";
 import VideoEvidence from "../components/VideoEvidence.vue";
 import NotFoundPage from "./NotFoundPage.vue";
 const { locale, t, route } = useWiki();
@@ -117,7 +116,6 @@ async function copy() {
           >
         </dl>
       </section>
-      <TabComparison v-if="record.comparison" :ids="record.variantIds" />
       <section
         v-if="record.testEvidence"
         id="test-evidence"

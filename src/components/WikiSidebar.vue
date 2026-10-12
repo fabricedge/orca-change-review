@@ -1,7 +1,8 @@
 <script setup>
+import { pullRequestRecords } from "../../lib/wiki-records.mjs";
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-import { revisions } from "../../lib/revisions.mjs";
+import { revisions as allRecords } from "../../lib/revisions.mjs";
 import { topicLabel, articlePath } from "../../lib/wiki-records.mjs";
 import {
   siteOwner,
@@ -9,6 +10,7 @@ import {
   siteRepositoryUrl,
 } from "../../lib/review-site.mjs";
 import { useWiki } from "../composables/use-wiki.js";
+const revisions = pullRequestRecords(allRecords);
 const { locale, t, route } = useWiki();
 const router = useRouter();
 const drawer = ref(null);
@@ -33,7 +35,6 @@ const links = computed(() => [
   ["news", t.value.recent],
   ["changes", t.value.all],
   ["sources", t.value.sources],
-  ["tab-copy", t.value.compare],
   ["workflow", t.value.plan],
 ]);
 function search() {

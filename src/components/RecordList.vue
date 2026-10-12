@@ -19,7 +19,7 @@ const { locale, t } = useWiki();
       </div>
       <p>{{ record.summary }}</p>
       <div class="record-meta">
-        <span>{{ record.repository || t.local }}</span
+        <a v-if="record.pullRequest" :href="record.pullRequest" target="_blank" rel="noopener noreferrer">PR #{{ record.pullRequest.split("/").filter(Boolean).at(-1) }}</a><span>{{ record.repository || t.local }}</span
         ><time v-if="recordDate(record)" :datetime="recordDate(record)"
           >{{ t.updated }} {{ formatDate(recordDate(record), locale) }}</time
         >

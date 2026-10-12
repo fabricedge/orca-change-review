@@ -25,7 +25,7 @@ export function makeRouter(ssr = false) {
       { path: "/revisoes/:slug", component: ArticlePage },
       { path: "/:locale(en|pt-BR)/changes/:slug", component: ArticlePage },
       { path: "/:locale(en|pt-BR)/sources", component: SourcesPage },
-      { path: "/:locale(en|pt-BR)/tab-copy", component: ArticlePage },
+      { path: "/:locale(en|pt-BR)/tab-copy", component: IndexPage, meta: { view: "changes" } },
       { path: "/:locale(en|pt-BR)/workflow", component: WorkflowPage },
       { path: "/:pathMatch(.*)*", component: NotFoundPage },
     ],
