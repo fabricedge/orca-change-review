@@ -26,12 +26,12 @@
 .reviews-root .site-header nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
 }
 .catalog-tools {
   display: grid;
-  gap: 16px;
-  padding: 24px 0 16px;
+  gap: 8px;
+  padding: 12px 0 8px;
   border-top: 1px solid var(--border);
 }
 .catalog-tools label {
@@ -66,8 +66,8 @@
 }
 .review-row {
   display: grid;
-  gap: 20px;
-  padding: 28px 0;
+  gap: 10px;
+  padding: 14px 0;
   border-bottom: 1px solid var(--border);
 }
 .review-summary,
@@ -100,20 +100,20 @@
   color: var(--accent);
 }
 .back-link {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 0.875rem;
 }
 .review-intro {
   max-width: 800px;
-  padding-top: 28px;
+  padding-top: 14px;
 }
 .implementation-note {
   font-weight: 500;
 }
 .reading-layout {
   display: grid;
-  gap: 32px;
-  padding-top: 32px;
+  gap: 16px;
+  padding-top: 16px;
 }
 .reading-content,
 .reading-section,
@@ -123,15 +123,15 @@
 .reading-section {
   max-width: 74ch;
   overflow-wrap: anywhere;
-  padding-bottom: 36px;
-  scroll-margin-top: 24px;
+  padding-bottom: 18px;
+  scroll-margin-top: 12px;
 }
 .reading-section h2 {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .reading-list {
   list-style: disc;
-  padding-left: 22px;
+  padding-left: 11px;
 }
 .reading-list li {
   display: list-item;
@@ -140,7 +140,7 @@
 }
 .file-list li {
   display: block;
-  margin: 16px 0;
+  margin: 8px 0;
 }
 .file-list a {
   display: inline-flex;
@@ -154,13 +154,13 @@
   font-size: 0.875rem;
 }
 .command-block {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 .command-block figcaption {
   padding: 0 0 8px;
 }
 .command-block pre {
-  padding: 16px;
+  padding: 8px;
   background: var(--muted);
   border-radius: var(--radius);
   white-space: pre-wrap;
@@ -171,21 +171,21 @@
 }
 .branch-record {
   border-top: 1px solid var(--border);
-  padding-top: 24px;
+  padding-top: 12px;
   align-self: start;
 }
 .branch-record h2 {
   font-size: 1rem;
 }
 .branch-record dl {
-  margin: 16px 0;
+  margin: 8px 0;
 }
 .branch-record dt {
   color: var(--muted-foreground);
   font-size: 0.8125rem;
 }
 .branch-record dd {
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   overflow-wrap: anywhere;
 }
 .branch-record dd a {
@@ -207,23 +207,23 @@
 }
 .comparison-panel,
 .decision-record {
-  padding: 32px 0;
+  padding: 16px 0;
   border-top: 1px solid var(--border);
 }
 .comparison-columns {
   display: grid;
-  gap: 32px;
-  margin-top: 24px;
+  gap: 16px;
+  margin-top: 12px;
 }
 .comparison-choice {
   min-width: 0;
   overflow-wrap: anywhere;
 }
 .comparison-choice h3 {
-  margin: 20px 0 12px;
+  margin: 10px 0 6px;
 }
 .comparison-choice dd {
-  margin: 0 0 16px;
+  margin: 0 0 8px;
 }
 .comparison-choice dt {
   font-weight: 600;
@@ -232,7 +232,7 @@
 .decision-record label {
   display: grid;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .comparison-choice select,
 .decision-record select,
@@ -253,7 +253,7 @@
 .decision-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 8px;
 }
 .decision-actions button {
   min-height: 48px;
@@ -280,14 +280,14 @@
   }
   .review-row {
     grid-template-columns: minmax(0, 1fr) 210px;
-    gap: 32px;
-    padding: 32px 0;
+    gap: 16px;
+    padding: 16px 0;
   }
 }
 @media (min-width: 960px) {
   .reading-layout {
     grid-template-columns: minmax(0, 1fr) 240px;
-    gap: 56px;
+    gap: 28px;
   }
   .branch-record {
     border-top: 0;
