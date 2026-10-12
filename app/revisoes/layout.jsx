@@ -4,6 +4,8 @@ import { SourceLinks } from '../source-links'
 import { ReviewDisclaimer } from '../review-disclaimer'
 import '../globals.css'
 import './reviews.css'
+import '../site-style.css'
+import { SiteStyleBootstrap } from '../site-style-bootstrap'
 import { SiteHeader } from '../site-header'
 
 export const metadata = {
@@ -13,7 +15,8 @@ export const metadata = {
 
 export default function ReviewsLayout({ children }) {
   return (
-    <html lang="pt-BR" className="reviews-root">
+    <html lang="pt-BR" className="reviews-root" data-site-style="showcase" suppressHydrationWarning>
+      <head><SiteStyleBootstrap /></head>
       <body>
         <a className="skip-link" href="#main-content">
           Pular para o conteúdo

@@ -4,6 +4,8 @@ Versions cover the site and MCP together. Recording releases have separate `reco
 
 ## Unreleased
 
+- Add a dark developer showcase and a persistent README presentation switch.
+
 - Add shared descriptive navigation and a searchable evidence catalog.
 - Display all PR, issue and commit references, with publication notices for local commits.
 - Remember localhost and Tailscale preview preferences in the browser.

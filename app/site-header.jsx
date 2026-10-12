@@ -4,6 +4,7 @@ import { ReviewIdentity, CreateReviewLink } from './review-identity'
 import { LanguageSwitch } from './language-switch'
 import { LocalPreview } from './local-preview'
 import { DeployLocal } from './deploy-local'
+import { SiteStyle } from './site-style'
 import { siteRepositoryUrl, siteVersion } from '../lib/review-site.mjs'
 
 export function SiteHeader({ locale = 'en', active = 'catalog', languageSwitch = true }) {
@@ -26,6 +27,7 @@ export function SiteHeader({ locale = 'en', active = 'catalog', languageSwitch =
         <p>{pt ? 'Veja o Orca em ação. Acompanhe cada mudança do código ao teste gravado.' : 'See Orca in action. Follow each change from its code to the recorded test.'}</p>
       </div>
       <div className="header-actions">
+        <SiteStyle locale={locale} />
         <LocalPreview locale={locale} />
         <DeployLocal locale={locale} />
         {languageSwitch && <LanguageSwitch />}

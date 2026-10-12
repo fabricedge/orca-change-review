@@ -1,0 +1,159 @@
+html[data-site-style='showcase'] {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --muted: #262626;
+  --muted-foreground: #a1a1a1;
+  --border: #737373;
+  --accent: var(--foreground);
+  --control-border: var(--muted-foreground);
+}
+html[data-site-style='showcase'] body {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.7;
+}
+html[data-site-style='showcase'] .review-header {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  gap: 24px;
+}
+html[data-site-style='showcase'] .header-introduction {
+  flex: 1 1 340px;
+}
+html[data-site-style='showcase'] .header-actions {
+  gap: 12px 20px;
+  flex: 1 1 420px;
+  justify-content: flex-end;
+}
+html[data-site-style='showcase'] .review-identity {
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+html[data-site-style='showcase'] .review-identity .note {
+  text-transform: none;
+  letter-spacing: normal;
+}
+html[data-site-style='showcase'] .review-navigation a {
+  border-radius: 0;
+  border-left: 1px solid var(--border);
+  padding: 12px 20px;
+}
+html[data-site-style='showcase'] main {
+  max-width: 1200px;
+}
+html[data-site-style='showcase'] .intro {
+  max-width: 900px;
+  padding: 80px 0 48px;
+}
+html[data-site-style='showcase'] h1 {
+  font-family: Geist, sans-serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+  max-width: 18ch;
+}
+html[data-site-style='showcase'] .intro > p:not(.eyebrow):not(.note) {
+  max-width: 68ch;
+  font-size: 1rem;
+  color: var(--muted-foreground);
+}
+html[data-site-style='showcase'] .eyebrow,
+html[data-site-style='showcase'] .review-kind {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+html[data-site-style='showcase'] .variant-heading {
+  margin-bottom: 28px;
+}
+html[data-site-style='showcase'] .player {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+}
+html[data-site-style='showcase'] .player video {
+  border-radius: 0;
+}
+html[data-site-style='showcase'] .review-row {
+  padding: 36px 20px;
+}
+html[data-site-style='showcase'] .review-row:hover {
+  background: var(--muted);
+}
+html[data-site-style='showcase'] .create-review {
+  color: var(--background);
+  background: var(--foreground);
+  border-color: var(--foreground);
+  font-weight: 600;
+}
+html[data-site-style='showcase'] .review-disclaimer {
+  background: transparent;
+  border-radius: 0;
+  border-width: 1px 0;
+}
+html[data-site-style='readme'] body {
+  font-family: Geist, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+html[data-site-style='readme'] main,
+html[data-site-style='readme'] .review-disclaimer,
+html[data-site-style='readme'] .source-links {
+  max-width: 900px;
+}
+html[data-site-style='readme'] .review-header {
+  display: block;
+  padding: 24px max(24px, calc((100vw - 852px) / 2));
+}
+html[data-site-style='readme'] .review-header > .header-actions {
+  margin: 20px 0;
+}
+html[data-site-style='readme'] .review-navigation {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+html[data-site-style='readme'] .review-navigation a {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 8px 0;
+}
+html[data-site-style='readme'] .review-navigation a[aria-current='page'] {
+  background: transparent;
+  text-decoration: underline;
+}
+html[data-site-style='readme'] .intro {
+  padding: 36px 0;
+}
+html[data-site-style='readme'] h1 {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+html[data-site-style='readme'] .review-row,
+html[data-site-style='readme'] .reading-layout,
+html[data-site-style='readme'] .comparison-columns {
+  grid-template-columns: 1fr;
+}
+html[data-site-style='readme'] .variant,
+html[data-site-style='readme'] .comparison-panel {
+  padding: 28px 0;
+}
+html[data-site-style='readme'] .variant-heading .number {
+  display: none;
+}
+html[data-site-style='readme'] .review-state {
+  border-left: 1px solid var(--border);
+  padding-left: 20px;
+}
+.site-style-control button {
+  min-height: 44px;
+}
+@media (max-width: 600px) {
+  html[data-site-style='showcase'] .review-header { padding: 20px; }
+  html[data-site-style='showcase'] .header-actions { justify-content: flex-start; flex-basis: 100%; }
+  html[data-site-style='showcase'] .intro { padding: 48px 0 32px; }
+  html[data-site-style='showcase'] .review-navigation a { padding-left: 12px; }
+  html[data-site-style='showcase'] .review-row { padding: 28px 0; }
+}

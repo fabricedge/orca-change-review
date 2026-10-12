@@ -199,3 +199,9 @@ Localhost refers to the device viewing the page. From your phone, use the develo
 - [Changelog](CHANGELOG.md)
 
 Run `npm run deploy:local` for a local preview. Version the site and MCP together with `npm run version:set -- 0.2.0`. After-change recording is opt-in and uses the same MCP tools as your agent; see the automation guide before enabling it in a task runner.
+
+## Website and README presentation
+
+The default presentation is a dark developer showcase inspired by [overclock.sh](https://overclock.sh/en): large headings, monospaced navigation and prominent real test recordings. It keeps Orca Review’s own identity and content.
+
+Choose **README mode** in the topbar for a compact document layout with the same videos, source references and tools. Choose **Back to website style** to restore the showcase. The selection persists in this browser across pages and visits, and is applied before hydration to reduce visual flashing. If browser storage is blocked, switching still works for the current page.

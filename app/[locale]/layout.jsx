@@ -5,6 +5,8 @@ import { I18nProvider } from '../i18n-provider'
 import { SourceLinks } from '../source-links'
 import { ReviewDisclaimer } from '../review-disclaimer'
 import '../globals.css'
+import '../site-style.css'
+import { SiteStyleBootstrap } from '../site-style-bootstrap'
 import { sitePath } from '../../lib/site-path.mjs'
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -27,7 +29,8 @@ export default async function Layout({ children, params }) {
     notFound()
   }
   return (
-    <html lang={locale}>
+    <html lang={locale} data-site-style="showcase" suppressHydrationWarning>
+      <head><SiteStyleBootstrap /></head>
       <body>
         <I18nProvider locale={locale}>
           {children}
