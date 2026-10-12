@@ -17,6 +17,7 @@ const text = z.string().trim().min(1).max(20000)
 const reviewSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: text,
+  topic: text.optional(),
   summary: text,
   kind: z.enum(['Issue', 'PR', 'Commit', 'Comparação']),
   status: text,

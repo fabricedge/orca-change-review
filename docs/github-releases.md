@@ -24,7 +24,7 @@ When the release manifest exists, the site reads it instead of locally imported 
 
 Create a new tag for subsequent recordings; old releases remain intact. Commit the updated manifest to deploy the new URLs. To return to local media, remove `media/releases.json` and run `npm run import:orca`.
 
-This publishes the repository and media. Publishing the Next.js site on GitHub Pages still requires static export and its deployment workflow; creating a Release alone does not deploy a website.
+This publishes the repository and media. Publishing the Vue site on GitHub Pages still requires static export and its deployment workflow; creating a Release alone does not deploy a website.
 
 ## Documentation
 

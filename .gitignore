@@ -5,6 +5,10 @@ public/fonts/
 npm-debug.log*
 .env*.local
 .check/
+out/
+.orca-site-backups/
+orca-artifacts/
+.next-validation/
 data/.review-write.lock/
 data/.reviews-*.json
 recordings/

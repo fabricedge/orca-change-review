@@ -7,6 +7,6 @@ author="${3:-fabricedge}"
 
 gh repo edit "$repository" \
   --homepage "$website" \
-  --description "Automated Orca test recordings and feature evidence, linked to PRs, commits and issues. Created by: $author."
+  --description "Vue 3 + Vite site that turns automated Orca test recordings into evidence pages with screenshots and video, linked to PRs, commits and issues. Ships an MCP server for agents. Created by: $author."
 
 printf 'Updated repository description and website: https://github.com/%s\n' "$repository"

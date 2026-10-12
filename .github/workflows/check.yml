@@ -21,6 +21,6 @@ jobs:
       - name: Install MCP dependencies
         run: if [ -f mcp/package-lock.json ]; then npm --prefix mcp ci; else npm --prefix mcp install; fi
       - run: npm run check:changes
-      - run: npm run test:preview
+      - run: npm test
       - run: npm --prefix mcp test
-      - run: npm run build -- --webpack
+      - run: npm run build

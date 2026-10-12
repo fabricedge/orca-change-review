@@ -1,26 +1,51 @@
-import assert from 'node:assert/strict'
-import { readFile, stat } from 'node:fs/promises'
-import { join } from 'node:path'
-import { revisions } from '../lib/revisions.mjs'
-import { locales } from '../lib/i18n.mjs'
-
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-const root = join(process.cwd(), 'out')
-for (const route of [
-  'index.html',
-  'revisoes/index.html',
-  ...locales.map((locale) => `${locale}/tab-copy/index.html`),
-  ...locales.map((locale) => `${locale}/workflow/index.html`),
-  ...revisions.map((revision) => `revisoes/${revision.slug}/index.html`)
-]) {
-  const html = await readFile(join(root, route), 'utf8')
-  assert.ok(html.includes('<html'), `Missing HTML: ${route}`)
-  assert.ok(!html.includes('href="/revisoes'), `Unprefixed catalog link: ${route}`)
-  assert.ok(html.includes(`${basePath}/_next/`), `Incorrect asset prefix: ${route}`)
+import assert from "node:assert/strict";
+import { readFile, stat } from "node:fs/promises";
+import { join } from "node:path";
+import { revisions } from "../lib/revisions.mjs";
+import { staticRoutes } from "../lib/wiki-records.mjs";
+import { readImportedMedia } from "../lib/read-imported-media.mjs";
+const base = (process.env.NEXT_PUBLIC_BASE_PATH || "").replace(/\/$/, "");
+for (const route of staticRoutes(revisions)) {
+  const html = await readFile(join("out", route, "index.html"), "utf8");
+  assert.ok(html.includes("<h1"), `Missing rendered article: ${route}`);
+  assert.ok(
+    html.includes(`${base}/assets/`),
+    `Incorrect asset prefix: ${route}`,
+  );
+  assert.ok(
+    !html.includes('href="/revisoes'),
+    `Unprefixed legacy link: ${route}`,
+  );
+  if (base)
+    assert.ok(
+      !/href="\/(?:en|pt-BR)\//.test(html),
+      `Unprefixed article link: ${route}`,
+    );
+  assert.ok(!html.includes("<!--app-html-->"), `Unrendered route: ${route}`);
 }
-const manifest = JSON.parse(await readFile('media/releases.json', 'utf8'))
-for (const variant of Object.values(manifest.variants)) {
-  assert.ok(variant.video.startsWith('https://github.com/'), 'Video must use the public Release')
+for (const record of revisions) {
+  const html = await readFile(
+    join("out", "en/changes", record.slug, "index.html"),
+    "utf8",
+  );
+  assert.ok(html.includes(record.title), `Missing real title: ${record.slug}`);
+  if (record.pullRequest)
+    assert.ok(
+      html.includes(record.pullRequest),
+      `Missing source: ${record.slug}`,
+    );
+  for (const commit of record.commits)
+    assert.ok(html.includes(commit.id), `Missing commit: ${record.slug}`);
 }
-await stat(join(root, '404.html'))
-console.log('Static routes, repository asset paths and Release video URLs verified.')
+const manifest = await readImportedMedia();
+for (const variant of Object.values(manifest.variants || {})) {
+  if (variant.video && manifest.repository)
+    assert.ok(
+      variant.video.startsWith("https://github.com/"),
+      "Release URL required",
+    );
+}
+await stat("out/404.html");
+console.log(
+  `${staticRoutes(revisions).length} rendered routes, real records, source links and asset paths verified.`,
+);

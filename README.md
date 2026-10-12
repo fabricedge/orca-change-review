@@ -1,12 +1,26 @@
 # Orca Review Changes
 
-Automated recordings and written evidence for Orca tests and features. Show what the app did, what the assertions checked, and what remains unverified—with references to the relevant PR, commit or issue.
+A **Vue 3 + Vite** website that turns automated Orca test recordings into shareable evidence pages: screenshots and video, what the assertions checked, and what remains unverified, each linked to the relevant PR, commit or issue. It also ships an **MCP server**, so an agent can record tests, search reviews and save evidence directly.
+
+[![Two-column tab layout recorded from the real Orca app](docs/screenshots/two-columns-menu.png)](docs/screenshots/two-columns-menu.png)
 
 **[View the website](https://fabricedge.github.io/orca-change-review/)** · [Recording guide](docs/test-recording.md) · [MCP setup](docs/mcp.md) · [Deployment guide](docs/github-pages.md)
 
 Created by: [fabricedge](https://github.com/fabricedge)
 
 > Evidence pages support code review. They do not replace proper review of the GitHub PR, its code, tests or CI results. A video alone does not prove that a test passed.
+
+## Screenshots
+
+Captured from the real Orca app with hidden renderers (`ORCA_BACKGROUND_LAUNCH=1`). Click a thumbnail to open the full-size PNG.
+
+| Variant | Menu | Tooltip | Copied |
+| --- | --- | --- | --- |
+| **CLI only** | [<img src="docs/screenshots/cli-only-menu.png" width="240" alt="CLI-only variant with its menu open">](docs/screenshots/cli-only-menu.png) | — | [<img src="docs/screenshots/cli-only-copied.png" width="240" alt="CLI-only variant after copying the tab">](docs/screenshots/cli-only-copied.png) |
+| **Split control** | [<img src="docs/screenshots/split-control-menu.png" width="240" alt="Split-control variant with its menu open">](docs/screenshots/split-control-menu.png) | [<img src="docs/screenshots/split-control-tooltip.png" width="240" alt="Split-control variant showing a tooltip">](docs/screenshots/split-control-tooltip.png) | [<img src="docs/screenshots/split-control-copied.png" width="240" alt="Split-control variant after copying the tab">](docs/screenshots/split-control-copied.png) |
+| **Two columns** | [<img src="docs/screenshots/two-columns-menu.png" width="240" alt="Two-column variant with its menu open">](docs/screenshots/two-columns-menu.png) | [<img src="docs/screenshots/two-columns-tooltip.png" width="240" alt="Two-column variant showing a tooltip">](docs/screenshots/two-columns-tooltip.png) | [<img src="docs/screenshots/two-columns-copied.png" width="240" alt="Two-column variant after copying the tab">](docs/screenshots/two-columns-copied.png) |
+
+These come from the [three-variant tab-copy demonstration](#three-variant-tab-copy-demonstration).
 
 ## Purpose
 
@@ -52,7 +66,7 @@ The development server listens on `0.0.0.0:3100`. For a local production server,
 | `/en/workflow/`    | English test recording, MCP and issue guidance.    |
 | `/pt-BR/workflow/` | Portuguese workflow guidance.                      |
 
-The Pages root opens the English comparison; the development root opens the catalog. Catalog translations are not complete. Language switching preserves branch names, commit IDs and recorded video content.
+The root opens the English documentation index. Original record text keeps its source language; navigation and workflow guidance are available in English and Portuguese. Language switching preserves branch names, commit IDs and recorded video content.
 
 For Tailscale access, keep the server running and open `http://YOUR-TAILSCALE-IP:3100` from another device on the tailnet. Find the IP with `tailscale ip -4`. An HTTPS alternative is:
 
@@ -86,7 +100,7 @@ Follow the [MCP setup guide](docs/mcp.md) and [recording guide](docs/test-record
 
 ## Deploy to GitHub Pages
 
-Commit and push the reviewed website source and `data/reviews.json` to `main`. Follow **Deploy GitHub Pages** in Actions, then open the URL reported by the deployment job. The workflow validates the catalog, exports Next.js with the repository base path and checks the generated routes. Use published Release URLs for videos; local recordings are not available to the GitHub-hosted build.
+Commit and push the reviewed website source and `data/reviews.json` to `main`. Follow **Deploy GitHub Pages** in Actions, then open the URL reported by the deployment job. The workflow validates the catalog, pre-renders Vue articles with the repository base path and checks the generated routes. Use published Release URLs for videos; local recordings are not available to the GitHub-hosted build.
 
 For the original Orca checkout and its sibling installation, run:
 
@@ -99,7 +113,7 @@ This script updates the installed website, validates the build, commits and push
 To check a static export on Linux/macOS:
 
 ```sh
-ORCA_GITHUB_PAGES=1 NEXT_PUBLIC_BASE_PATH=/your-repository npm run build -- --webpack
+ORCA_GITHUB_PAGES=1 NEXT_PUBLIC_BASE_PATH=/your-repository npm run build
 ```
 
 On Windows, set those environment variables in your shell before running the build.
@@ -108,7 +122,7 @@ On Windows, set those environment variables in your shell before running the bui
 
 The repository's About section should use this description:
 
-> Automated Orca test recordings and feature evidence, linked to PRs, commits and issues. Created by: fabricedge.
+> Vue 3 + Vite site that turns automated Orca test recordings into evidence pages with screenshots and video, linked to PRs, commits and issues. Ships an MCP server for agents. Created by: fabricedge.
 
 Set its Website field to `https://fabricedge.github.io/orca-change-review/`. The included script applies both fields with an authenticated GitHub CLI:
 
@@ -202,6 +216,26 @@ Run `npm run deploy:local` for a local preview. Version the site and MCP togethe
 
 ## Website and README presentation
 
-The default presentation is a dark developer showcase inspired by [overclock.sh](https://overclock.sh/en): large headings, monospaced navigation and prominent real test recordings. It keeps Orca Review’s own identity and content.
+The default presentation is a light technical wiki with persistent navigation, compact change lists, permanent articles and a contextual table of contents.
 
-Choose **README mode** in the topbar for a compact document layout with the same videos, source references and tools. Choose **Back to website style** to restore the showcase. The selection persists in this browser across pages and visits, and is applied before hydration to reduce visual flashing. If browser storage is blocked, switching still works for the current page.
+Choose **README mode** under **Tools & local preview** for a compact document layout with the same videos, source references and tools. Choose **Wiki mode** to restore the documentation layout. The selection persists in this browser across pages and visits, and is applied before hydration to reduce visual flashing. If browser storage is blocked, switching still works for the current page.
+
+## Catalog and topics
+
+The default homepage is `/en/overview/`, with a Portuguese edition at `/pt-BR/overview/`. `/en/news/` remains the recent-changes page. Legacy `/revisoes/` and article links remain available. Each record links its stored PRs, commits and evidence; provider status is not polled automatically.
+
+Set optional `topic` in a review, including MCP `save_review` payloads. Existing topics are `tabs-layout` and `remote-services`; custom topic names are supported. Unclassified changes appear under Development. Sidebar topic links use the real catalog filters.
+
+## Technical wiki architecture
+
+The website uses Vue 3, Vue Router and Vite. `src/components` holds the shared navigation, article sections, source references, revision history, comparison and local review controls. `lib/revisions.mjs` and `data/reviews.json` remain the record catalog shared with the MCP. Existing Portuguese record text is preserved; navigation and workflow guidance support English and Portuguese.
+
+`npm run build` renders every known article to its own HTML file in `out`. GitHub Pages serves those files directly, including legacy `/revisoes/` URLs, without a server or rewrite rules. `NEXT_PUBLIC_BASE_PATH` remains supported for existing deployments. Search and filters run against the same real catalog in the browser; a rebuild publishes newly saved MCP records.
+
+The source does not store historical diffs or commit dates. Revision history shows the actual record timestamps and keeps recorded commit identifiers, without inventing prior versions. Videos are shown only when their manifest identifies a full Orca app capture.
+
+Validation: `npm test`, `npm --prefix mcp test`, `npm run check:changes`, `npm run build`, and `node scripts/check-pages-export.mjs`. See [migration and validation notes](docs/vue-migration.md).
+
+## License
+
+Released under the [MIT License](LICENSE).

@@ -17,7 +17,7 @@ npm run deploy:local -- --host 100.91.176.16 --port 3100
 npm run deploy:local -- --check
 ```
 
-Replace the example IP with your development computer’s actual Tailscale IP. The script binds to localhost by default, checks port availability, and refuses to stop an existing process. `--check` verifies dependencies and binding without starting Next.js. If the port is occupied, choose another port. Tailscale must already be connected on both devices; access depends on your tailnet’s permissions and firewall.
+Replace the example IP with your development computer’s actual Tailscale IP. The script binds to localhost by default, checks port availability, and refuses to stop an existing process. `--check` verifies dependencies and binding without starting Vite. If the port is occupied, choose another port. Tailscale must already be connected on both devices; access depends on your tailnet’s permissions and firewall.
 
 In the site topbar, open **Check locally**, enter that address, select Tailscale, and save. These preferences are stored only in the current browser. The **Deploy locally** button provides a copyable command and this guide; browser security does not allow a Pages button to execute a command on your computer.
 

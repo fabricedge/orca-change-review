@@ -65,6 +65,10 @@ For PR/commit review:
 
 > Record this PR or commit in Orca Review. Explain the user-visible before and after, what changed, why, and which checks actually ran. Include evidence and limitations. Keep unrelated issues separate.
 
+## Organize stories by topic
+
+Add optional `topic` to the review payload. Use `tabs-layout` for tab and layout changes, `remote-services` for remote execution and services, or a descriptive custom topic. The news homepage groups stories by this field; records without it appear under Development. Each record is a story linked to its PR, commits or issue. Keep unrelated changes in separate records.
+
 ## Save payload example
 
 Replace the placeholders with observed facts before calling `save_review`:

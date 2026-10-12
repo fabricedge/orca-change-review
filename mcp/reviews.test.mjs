@@ -12,6 +12,7 @@ import { validateRevisions } from '../lib/validate-revisions.mjs'
 
 const draft = {
   slug: 'tab-position-problem',
+  topic: 'tabs-layout',
   title: 'Cannot identify tab position',
   summary: 'An agent cannot locate the selected tab',
   kind: 'Issue',
@@ -139,6 +140,7 @@ test('MCP client discovers tools, saves a draft, lists and reads it, and receive
   assert.equal(JSON.parse(listed.content[0].text)[0].slug, draft.slug)
   const read = await client.callTool({ name: 'get_review', arguments: { slug: draft.slug } })
   assert.equal(JSON.parse(read.content[0].text).issueDraft.problem, draft.issueDraft.problem)
+  assert.equal(JSON.parse(read.content[0].text).topic, draft.topic)
   const absent = await client.callTool({ name: 'get_review', arguments: { slug: 'missing' } })
   assert.equal(absent.isError, true)
   const id = '12345678-1234-1234-1234-123456789abc'

@@ -41,7 +41,7 @@ if git remote get-url origin >/dev/null 2>&1; then
 else
   git remote add origin "https://github.com/$repository.git"
 fi
-git add -- app lib scripts docs next.config.mjs package.json .gitignore README.md
+git add -- src lib scripts docs data mcp public/orca-logo.svg vite.config.mjs index.html package.json .gitignore README.md LICENSE RECORDING.md CONTRIBUTING.md CHANGELOG.md .github/workflows
 if [[ -f package-lock.json ]]; then git add -- package-lock.json; fi
 if ! git diff --cached --quiet; then git commit -m 'feat: publish Orca change review site'; fi
 git push -u origin HEAD
